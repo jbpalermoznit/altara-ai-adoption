@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow desbloqueado — Pesquisa de Mercado · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></symbol>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="hq-home.html">HQ Home</a>
+    <a href="coach-home.html">Coach Home</a>
+    <a href="coach-workflow-handoff.html" class="active">Workflow Handoff</a>
+    <a href="coach-certificacao.html">Certificação</a>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item" href="coach-home.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book"/></svg> Trilhas</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-user"/></svg> Perfil</a>
+      <a class="nav-item" style="margin-top: 16px; color: var(--altara-600); font-weight: 600;">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#i-plus"/></svg> Solicitar trilha
+      </a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <a href="coach-home.html" class="btn btn-ghost btn-sm">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg>
+            Voltar
+          </a>
+          <span class="topbar-context">Trilha · Fundamentos de IA pro Comercial</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">JB</div>
+        </div>
+      </header>
+
+      <div class="content" style="max-width: 920px;">
+
+        <div class="workflow-card mb-6">
+
+          <!-- Header -->
+          <div class="workflow-header">
+            <div class="caption mb-3" style="color: var(--altara-700);">Workflow desbloqueado</div>
+            <div class="workflow-title">Pesquisa de Mercado com Copilot</div>
+            <div class="workflow-subtitle">Gera relatório executivo de 1 página com panorama, oportunidades e riscos do mercado, em ~30 min.</div>
+            <div class="workflow-meta">
+              <span class="tag tag-peach">Comercial &amp; Marketing</span>
+              <span class="workflow-meta-item">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-clock"/></svg>
+                ~30 min de execução
+              </span>
+              <span class="workflow-meta-item">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg>
+                Microsoft Copilot
+              </span>
+              <span class="workflow-meta-item">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-user"/></svg>
+                8 colegas já usaram
+              </span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="workflow-body">
+
+            <!-- Passo a passo -->
+            <div class="workflow-section">
+              <div class="workflow-section-title">Passo a passo</div>
+              <div class="workflow-steps">
+
+                <div class="workflow-step">
+                  <div class="workflow-step-number">1</div>
+                  <div class="workflow-step-text">
+                    <strong>Defina o setor e produto-alvo da pesquisa</strong> antes de rodar.
+                    Tenha em mãos: nome do produto/serviço, segmento de mercado (B2B/B2C), região de interesse (BR, LATAM, global).
+                  </div>
+                </div>
+
+                <div class="workflow-step">
+                  <div class="workflow-step-number">2</div>
+                  <div class="workflow-step-text">
+                    <strong>Abra o Microsoft Copilot</strong> em qualquer app do M365 (Word recomendado pra output formatado).
+                    Use o botão "Copilot" na ribbon superior.
+                  </div>
+                </div>
+
+                <div class="workflow-step">
+                  <div class="workflow-step-number">3</div>
+                  <div class="workflow-step-text">
+                    <strong>Cole o prompt abaixo</strong> (já preenchido com seu setor e produto).
+                    Aguarde a resposta inicial — Copilot vai gerar um esboço estruturado.
+                  </div>
+                </div>
+
+                <div class="workflow-step">
+                  <div class="workflow-step-number">4</div>
+                  <div class="workflow-step-text">
+                    <strong>Refine pedindo dados do mercado brasileiro</strong> ("foque em dados BR de 2024-2025") e fontes ("inclua referências verificáveis").
+                  </div>
+                </div>
+
+                <div class="workflow-step">
+                  <div class="workflow-step-number">5</div>
+                  <div class="workflow-step-text">
+                    <strong>Exporte como Word</strong> pra revisar e ajustar antes de mandar pro cliente. Documento fica pronto pra apresentação.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Prompt -->
+            <div class="workflow-section">
+              <div class="workflow-section-title">Prompt otimizado</div>
+              <div class="prompt-block">
+                <button class="prompt-copy">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-copy"/></svg>
+                  Copiar
+                </button>Você é um analista de pesquisa de mercado especializado em <span class="placeholder">{setor}</span>.
+
+Sua tarefa: gerar um relatório executivo de 1 página com 3 seções (panorama, oportunidades, riscos) sobre <span class="placeholder">{produto}</span>.
+
+Estrutura desejada:
+1. Panorama do mercado (tamanho, crescimento, principais players)
+2. 3 oportunidades concretas que justificam entrada/expansão
+3. 3 riscos relevantes (regulatórios, concorrenciais, macro)
+
+Use dados do mercado brasileiro quando disponíveis. Inclua fontes verificáveis. Tom executivo, frases curtas.</div>
+
+              <!-- Placeholder fill UI -->
+              <div class="placeholder-fill">
+                <div class="placeholder-fill-title">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-info"/></svg>
+                  Preencha os 2 campos antes de copiar — Altara vai substituir no prompt automaticamente
+                </div>
+                <div class="placeholder-fill-inputs">
+                  <div class="placeholder-fill-input">
+                    <label>Setor</label>
+                    <input type="text" placeholder="Ex: consultoria de TI mid-market" value="consultoria de TI mid-market">
+                  </div>
+                  <div class="placeholder-fill-input">
+                    <label>Produto</label>
+                    <input type="text" placeholder="Ex: serviço de Microsoft 365 Copilot adoção" value="serviço de Microsoft 365 Copilot adoção">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Plano de implementação -->
+            <div class="workflow-section">
+              <div class="workflow-section-title">Configurar de fato (opcional — pra reuso recorrente)</div>
+              <div class="card" style="background: var(--neutral-50); border-color: var(--neutral-200);">
+                <p class="body mb-3" style="font-weight: 600;">Salve esse prompt como agente reutilizável no Copilot Studio:</p>
+                <ol style="padding-left: 24px; color: var(--neutral-700); line-height: 1.8; font-size: 14px;">
+                  <li>Abra o <strong>Copilot Studio</strong> (admin precisa ter habilitado pra sua conta)</li>
+                  <li>Crie novo agente: nome "Pesquisa de Mercado"</li>
+                  <li>Cole o prompt acima como <em>instructions</em> do agente</li>
+                  <li>Habilite "Knowledge sources" se quiser conectar SharePoint da empresa com pesquisas anteriores</li>
+                  <li>Publique e use diretamente no Teams ou Outlook</li>
+                </ol>
+                <a class="link mt-4" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 600;">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-external"/></svg>
+                  Abrir Copilot Studio
+                </a>
+              </div>
+            </div>
+
+            <!-- Output esperado -->
+            <div class="workflow-section">
+              <div class="workflow-section-title">O que você vai entregar</div>
+              <p class="body">
+                Documento Word de 1-2 páginas, formato executivo, com 3 seções clara (Panorama / Oportunidades / Riscos), dados quantitativos do mercado BR, e fontes inline. Pronto pra anexar em proposta comercial ou apresentar em reunião.
+              </p>
+            </div>
+
+            <!-- CTAs -->
+            <div class="workflow-actions">
+              <button class="btn btn-primary btn-lg">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-external"/></svg>
+                Usar agora
+              </button>
+              <button class="btn btn-secondary">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check"/></svg>
+                Reportar aplicação real
+              </button>
+              <button class="btn btn-ghost">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-bookmark"/></svg>
+                Salvar pra depois
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Footer info -->
+        <div class="action-card">
+          <div class="action-card-text">
+            <div class="action-card-title">+ 50 pts ao reportar aplicação real</div>
+            <div class="action-card-desc">Quando você usar esse workflow no trabalho, marque "Reportar aplicação real". Conta pro seu ranking + entra no ROI agregado da empresa.</div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

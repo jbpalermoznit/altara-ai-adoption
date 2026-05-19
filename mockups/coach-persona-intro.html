@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coach Persona — Olá! · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: var(--neutral-50);
+      min-height: 100vh;
+    }
+
+    .intro-page {
+      min-height: calc(100vh - 40px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      position: relative;
+    }
+
+    /* Background blur — efeito Section "Hello there" */
+    .intro-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.4;
+    }
+    .intro-bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+    .intro-bg-blob.b1 {
+      top: 10%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: var(--tag-pink-bg);
+    }
+    .intro-bg-blob.b2 {
+      top: 30%;
+      right: 5%;
+      width: 500px;
+      height: 500px;
+      background: var(--tag-mint-bg);
+    }
+    .intro-bg-blob.b3 {
+      bottom: 5%;
+      left: 40%;
+      width: 450px;
+      height: 450px;
+      background: var(--altara-100);
+    }
+
+    .intro-card {
+      background: var(--neutral-0);
+      border-radius: 24px;
+      padding: 56px 64px;
+      max-width: 560px;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--altara-700);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--altara-200);
+      display: inline-block;
+    }
+
+    .coach-orb-large {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--tag-butter-bg), var(--altara-500));
+      margin: 0 auto 20px;
+      animation: spin 12s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .intro-title {
+      font-size: 40px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .intro-subtitle {
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--neutral-700);
+      margin-bottom: 32px;
+    }
+
+    .intro-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .intro-bullet {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--neutral-900);
+    }
+
+    .check-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--altara-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--altara-600);
+      flex-shrink: 0;
+    }
+
+    .intro-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Bubble lateral "Hyper-personalizado" */
+    .intro-bubble {
+      position: absolute;
+      top: 80px;
+      right: -100px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 18px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--neutral-700);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+      max-width: 200px;
+      line-height: 1.4;
+    }
+    .intro-bubble::before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: -8px;
+      width: 0;
+      height: 0;
+      border-right: 8px solid var(--neutral-0);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+    @media (max-width: 1024px) {
+      .intro-bubble { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="coach-onboarding.html">Onboarding</a>
+    <a href="coach-persona-intro.html" class="active">Coach Persona Intro</a>
+    <a href="coach-home.html">Coach Home →</a>
+  </div>
+
+  <div class="intro-bg">
+    <div class="intro-bg-blob b1"></div>
+    <div class="intro-bg-blob b2"></div>
+    <div class="intro-bg-blob b3"></div>
+  </div>
+
+  <div class="intro-page">
+
+    <div class="intro-card">
+      <div class="intro-label">Altara Coach</div>
+      <div class="coach-orb-large"></div>
+      <h1 class="intro-title">Olá, João Bruno!</h1>
+      <p class="intro-subtitle">Sou seu coach pessoal de IA — aqui pra te ajudar a embeddar IA no seu trabalho diário.</p>
+
+      <div class="intro-bullets">
+        <div class="intro-bullet">
+          <div class="check-circle"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check"/></svg></div>
+          Identifico tarefas específicas onde IA pode ajudar
+        </div>
+        <div class="intro-bullet">
+          <div class="check-circle"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check"/></svg></div>
+          Mostro vantagens e limites da IA pra cada caso
+        </div>
+        <div class="intro-bullet">
+          <div class="check-circle"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check"/></svg></div>
+          Dou plano acionável e prompt pronto pra usar
+        </div>
+        <div class="intro-bullet">
+          <div class="check-circle"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check"/></svg></div>
+          Personalizo tudo pro seu cargo e ferramentas disponíveis
+        </div>
+      </div>
+
+      <div class="intro-actions">
+        <a href="coach-home.html" class="btn btn-primary btn-lg">Começar</a>
+        <button class="btn btn-secondary">Rever meu perfil</button>
+      </div>
+
+      <div class="intro-bubble">
+        Hyper-personalizado pro seu papel e ferramentas IA da ZNIT
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HQ — Workflows · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .wf-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 900px) {
+      .wf-summary { grid-template-columns: 1fr 1fr; }
+    }
+    .summary-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .summary-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .summary-value {
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--neutral-900);
+      line-height: 1;
+    }
+    .summary-meta {
+      font-size: 12px;
+      color: var(--neutral-500);
+      margin-top: 6px;
+    }
+
+    .wf-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .wf-card.featured {
+      border-color: var(--altara-600);
+      background: linear-gradient(135deg, var(--altara-50), white 60%);
+    }
+
+    .wf-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--neutral-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--neutral-700);
+    }
+    .wf-card.featured .wf-icon {
+      background: var(--altara-600);
+      color: white;
+    }
+
+    .wf-info { flex: 1; min-width: 0; }
+    .wf-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+    .wf-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--neutral-900);
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+    .wf-desc {
+      font-size: 14px;
+      color: var(--neutral-500);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .wf-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--neutral-700);
+    }
+    .wf-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .wf-stat-strong { font-weight: 600; }
+
+    .wf-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .wf-action-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--neutral-300);
+      background: var(--neutral-0);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--neutral-700);
+    }
+    .wf-action-btn:hover { background: var(--neutral-50); border-color: var(--neutral-500); }
+    .wf-action-btn.primary {
+      background: var(--neutral-900);
+      color: white;
+      border-color: var(--neutral-900);
+    }
+    .wf-action-btn.primary:hover { background: var(--altara-600); border-color: var(--altara-600); }
+
+    .featured-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--altara-600);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .wf-promote-banner {
+      background: var(--tag-butter-bg);
+      color: var(--tag-butter-text);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rating-stars {
+      color: var(--medal-1);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 3 5-6"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9V4h12v5a6 6 0 0 1-12 0z"/><path d="M6 4H2v3a3 3 0 0 0 4 3"/><path d="M18 4h4v3a3 3 0 0 1-4 3"/><path d="M9 17h6v4H9z"/><path d="M12 15v2"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="8" r="3"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+      <symbol id="i-archive" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></symbol>
+      <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="hq-home.html">HQ Home</a>
+    <a href="hq-adocao-roi.html">Adoção &amp; ROI</a>
+    <a href="hq-challenges.html">Challenges</a>
+    <a href="hq-time.html">Time</a>
+    <a href="hq-workflows.html" class="active">Workflows</a>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item" href="hq-home.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item" href="hq-adocao-roi.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chart"/></svg> Adoção &amp; ROI</a>
+      <a class="nav-item" href="hq-challenges.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-trophy"/></svg> Challenges</a>
+      <a class="nav-item" href="hq-time.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-users"/></svg> Time</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg> Programa</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-settings"/></svg> Configurações</a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Programa em execução</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">BM</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <div>
+            <h1 class="h1">Workflows da empresa</h1>
+            <p class="body-lg text-muted mt-2">Biblioteca de SOPs ativos · curadoria do champion · base do ROI da empresa</p>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="wf-summary">
+          <div class="summary-card">
+            <div class="summary-label">Workflows ativos</div>
+            <div class="summary-value">14</div>
+            <div class="summary-meta">+14 vs. baseline (0)</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Execuções no mês</div>
+            <div class="summary-value">192</div>
+            <div class="summary-meta">~6.4 por funcionário</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Variantes locais</div>
+            <div class="summary-value">5</div>
+            <div class="summary-meta">Editadas pelo champion</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Ociosos (&gt;30d)</div>
+            <div class="summary-value text-warn" style="color: var(--warning);">2</div>
+            <div class="summary-meta">Considerar arquivar</div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active">Ativos (14)</button>
+          <button class="tab">Destaque (3)</button>
+          <button class="tab">Ociosos (2)</button>
+          <button class="tab">Arquivados (1)</button>
+          <button class="tab">Variantes locais (5)</button>
+        </div>
+
+        <!-- Workflow promote banner -->
+        <div class="wf-promote-banner">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-info"/></svg>
+          <div><strong>2 workflows foram salvos do Apply</strong> nos últimos 7 dias — aprove a promoção pra biblioteca ou edite antes.</div>
+          <button class="wf-action-btn" style="margin-left: auto;">Revisar</button>
+        </div>
+
+        <!-- Featured workflow -->
+        <div class="wf-card featured">
+          <div class="wf-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg>
+          </div>
+          <div class="wf-info">
+            <div class="wf-header-row">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="featured-banner">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-flag"/></svg>
+                    Em destaque
+                  </span>
+                  <span class="tag tag-peach">Marketing</span>
+                </div>
+                <div class="wf-name">Pesquisa de Mercado com Copilot</div>
+                <div class="wf-desc">Gera relatório executivo de 1 página com panorama, oportunidades e riscos sobre setor específico. Versão calibrada por Mariana Souza.</div>
+              </div>
+            </div>
+            <div class="wf-meta-row">
+              <span class="wf-stat"><strong class="wf-stat-strong">47</strong> execuções</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><strong class="wf-stat-strong">8</strong> funcionários</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><span class="rating-stars">★★★★★</span> 4.7</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><svg class="icon icon-sm" viewBox="0 0 24 24" style="vertical-align: -3px;"><use href="#i-clock"/></svg> 30min médio economizado</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="tag tag-mint">Origem: Trilha</span>
+            </div>
+          </div>
+          <div class="wf-actions">
+            <button class="wf-action-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-edit"/></svg></button>
+            <button class="wf-action-btn">Ver detalhes</button>
+          </div>
+        </div>
+
+        <!-- Regular workflows -->
+        <div class="wf-card">
+          <div class="wf-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg>
+          </div>
+          <div class="wf-info">
+            <div class="wf-header-row">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="tag tag-pink">Comercial</span>
+                  <span class="tag tag-lavender">Variante local</span>
+                </div>
+                <div class="wf-name">Proposta comercial em 5 min</div>
+                <div class="wf-desc">Gera draft de proposta usando briefing do cliente, casos de sucesso e diferenciais técnicos da ZNIT. Champion adaptou pra setor de varejo.</div>
+              </div>
+            </div>
+            <div class="wf-meta-row">
+              <span class="wf-stat"><strong class="wf-stat-strong">38</strong> execuções</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><strong class="wf-stat-strong">6</strong> funcionários</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><span class="rating-stars">★★★★★</span> 4.6</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat">v1.2 (editado por champion)</span>
+            </div>
+          </div>
+          <div class="wf-actions">
+            <button class="wf-action-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-edit"/></svg></button>
+            <button class="wf-action-btn">Ver</button>
+          </div>
+        </div>
+
+        <div class="wf-card">
+          <div class="wf-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg>
+          </div>
+          <div class="wf-info">
+            <div class="wf-header-row">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="tag tag-pink">Comercial</span>
+                </div>
+                <div class="wf-name">Briefing pré-reunião cliente</div>
+                <div class="wf-desc">Compila contexto da conta, últimas interações e perguntas críticas em sumário de 1 página antes da call.</div>
+              </div>
+            </div>
+            <div class="wf-meta-row">
+              <span class="wf-stat"><strong class="wf-stat-strong">31</strong> execuções</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><strong class="wf-stat-strong">5</strong> funcionários</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><span class="rating-stars">★★★★★</span> 4.5</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="tag tag-mint">Origem: Apply</span>
+            </div>
+          </div>
+          <div class="wf-actions">
+            <button class="wf-action-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-edit"/></svg></button>
+            <button class="wf-action-btn primary">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-flag"/></svg>
+              Destaque
+            </button>
+          </div>
+        </div>
+
+        <div class="wf-card">
+          <div class="wf-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg>
+          </div>
+          <div class="wf-info">
+            <div class="wf-header-row">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="tag tag-butter">Operações</span>
+                </div>
+                <div class="wf-name">Triagem de tickets de suporte</div>
+                <div class="wf-desc">Categoriza tickets entrantes por urgência + tema, sugere primeira resposta baseada em FAQ.</div>
+              </div>
+            </div>
+            <div class="wf-meta-row">
+              <span class="wf-stat"><strong class="wf-stat-strong">28</strong> execuções</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><strong class="wf-stat-strong">4</strong> funcionários</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><span class="rating-stars">★★★★</span><span style="color: var(--neutral-300);">★</span> 4.4</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="tag tag-mint">Origem: Trilha</span>
+            </div>
+          </div>
+          <div class="wf-actions">
+            <button class="wf-action-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-edit"/></svg></button>
+            <button class="wf-action-btn">Ver</button>
+          </div>
+        </div>
+
+        <div class="wf-card">
+          <div class="wf-icon">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg>
+          </div>
+          <div class="wf-info">
+            <div class="wf-header-row">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="tag tag-lavender">Customer Success</span>
+                </div>
+                <div class="wf-name">Health check semanal de conta</div>
+                <div class="wf-desc">Monitora sinais de uso, NPS, tickets e churn risk. Gera resumo executivo pra CSM semanal.</div>
+              </div>
+            </div>
+            <div class="wf-meta-row">
+              <span class="wf-stat"><strong class="wf-stat-strong">19</strong> execuções</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><strong class="wf-stat-strong">3</strong> funcionários</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat"><span class="rating-stars">★★★★</span><span style="color: var(--neutral-300);">★</span> 4.3</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="tag tag-mint">Origem: Apply</span>
+            </div>
+          </div>
+          <div class="wf-actions">
+            <button class="wf-action-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-edit"/></svg></button>
+            <button class="wf-action-btn">Ver</button>
+          </div>
+        </div>
+
+        <div class="wf-card" style="opacity: 0.65;">
+          <div class="wf-icon" style="background: var(--tag-butter-bg); color: var(--tag-butter-text);">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-clock"/></svg>
+          </div>
+          <div class="wf-info">
+            <div class="wf-header-row">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="tag tag-pink">Comercial</span>
+                  <span class="badge badge-warning">Ocioso</span>
+                </div>
+                <div class="wf-name">Análise competitiva semanal</div>
+                <div class="wf-desc">Monitora movimentações de 5 concorrentes principais em sumário curto.</div>
+              </div>
+            </div>
+            <div class="wf-meta-row">
+              <span class="wf-stat"><strong class="wf-stat-strong">3</strong> execuções (último 30d)</span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat">Última: <strong class="wf-stat-strong">38 dias atrás</strong></span>
+              <span style="color: var(--neutral-300);">·</span>
+              <span class="wf-stat" style="color: var(--warning);">Taxa uso/desbloqueio: 18%</span>
+            </div>
+          </div>
+          <div class="wf-actions">
+            <button class="wf-action-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-archive"/></svg>
+              Arquivar
+            </button>
+            <button class="wf-action-btn">Manter</button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

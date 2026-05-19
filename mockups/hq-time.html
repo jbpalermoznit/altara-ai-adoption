@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HQ — Time · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      max-width: 320px;
+      border: 1px solid var(--neutral-300);
+      border-radius: 999px;
+      padding: 10px 16px 10px 40px;
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--neutral-0) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2378766F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>') no-repeat 14px center;
+    }
+    .filter-select {
+      border: 1px solid var(--neutral-300);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--neutral-0);
+      cursor: pointer;
+    }
+
+    .team-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 900px) {
+      .team-summary { grid-template-columns: 1fr 1fr; }
+    }
+
+    .summary-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .summary-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .summary-value {
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--neutral-900);
+      line-height: 1;
+    }
+    .summary-meta {
+      font-size: 12px;
+      color: var(--neutral-500);
+      margin-top: 6px;
+    }
+
+    .team-table {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .team-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .team-table th {
+      text-align: left;
+      padding: 14px 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--neutral-50);
+      border-bottom: 1px solid var(--neutral-200);
+      white-space: nowrap;
+    }
+    .team-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--neutral-100);
+      font-size: 14px;
+      color: var(--neutral-900);
+    }
+    .team-table tr:last-child td { border-bottom: none; }
+    .team-table tr:hover td { background: var(--neutral-50); cursor: pointer; }
+    .team-table .num { font-variant-numeric: tabular-nums; }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .status-active { background: var(--success); }
+    .status-atrasado { background: var(--warning); }
+    .status-inativo { background: var(--danger); }
+
+    .text-warn { color: var(--warning); font-weight: 600; }
+    .text-danger-strong { color: var(--danger); font-weight: 600; }
+
+    /* Drill-down panel preview */
+    .drill-preview {
+      background: var(--altara-50);
+      border: 1px solid var(--altara-200);
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .drill-preview-text { flex: 1; }
+    .drill-preview-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--altara-700);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .drill-preview-desc {
+      font-size: 14px;
+      color: var(--neutral-700);
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--neutral-50);
+      border-top: 1px solid var(--neutral-200);
+      font-size: 13px;
+      color: var(--neutral-700);
+    }
+    .pagination-controls {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .page-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--neutral-300);
+      background: var(--neutral-0);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .page-btn.active {
+      background: var(--neutral-900);
+      color: white;
+      border-color: var(--neutral-900);
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 3 5-6"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9V4h12v5a6 6 0 0 1-12 0z"/><path d="M6 4H2v3a3 3 0 0 0 4 3"/><path d="M18 4h4v3a3 3 0 0 1-4 3"/><path d="M9 17h6v4H9z"/><path d="M12 15v2"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="8" r="3"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="hq-home.html">HQ Home</a>
+    <a href="hq-adocao-roi.html">Adoção &amp; ROI</a>
+    <a href="hq-challenges.html">Challenges</a>
+    <a href="hq-time.html" class="active">Time</a>
+    <a href="hq-workflows.html">Workflows</a>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item" href="hq-home.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item" href="hq-adocao-roi.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chart"/></svg> Adoção &amp; ROI</a>
+      <a class="nav-item" href="hq-challenges.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-trophy"/></svg> Challenges</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-users"/></svg> Time</a>
+      <a class="nav-item" href="hq-workflows.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg> Programa</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-settings"/></svg> Configurações</a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Programa em execução</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">BM</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <div>
+            <h1 class="h1">Time</h1>
+            <p class="body-lg text-muted mt-2">32 funcionários cadastrados · 23 ativos esta semana</p>
+          </div>
+          <div class="flex gap-3">
+            <button class="btn btn-secondary">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-download"/></svg>
+              Exportar CSV
+            </button>
+            <button class="btn btn-primary">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-send"/></svg>
+              Enviar lembrete pra inativos
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary cards -->
+        <div class="team-summary">
+          <div class="summary-card">
+            <div class="summary-label">Total cadastrados</div>
+            <div class="summary-value">32</div>
+            <div class="summary-meta">5 departamentos</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Ativos semana</div>
+            <div class="summary-value">23</div>
+            <div class="summary-meta text-success" style="color: var(--success); font-weight: 600;">+57pp vs. baseline</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Certificados</div>
+            <div class="summary-value">23</div>
+            <div class="summary-meta">72% do time</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-label">Inativos &gt;14d</div>
+            <div class="summary-value text-danger-strong" style="color: var(--danger);">4</div>
+            <div class="summary-meta">Precisam de empurrão</div>
+          </div>
+        </div>
+
+        <!-- Drill preview -->
+        <div class="drill-preview">
+          <svg class="icon icon-lg" viewBox="0 0 24 24" style="color: var(--altara-600);"><use href="#i-info"/></svg>
+          <div class="drill-preview-text">
+            <div class="drill-preview-title">Drill-down disponível</div>
+            <div class="drill-preview-desc">Clique em qualquer linha pra abrir perfil completo: trilhas, workflows usados, aplicações reportadas, evolução de pontos.</div>
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Buscar funcionário...">
+          <select class="filter-select">
+            <option>Departamento: Todos</option>
+            <option>Marketing</option>
+            <option>Comercial</option>
+            <option>Operações</option>
+            <option>Customer Success</option>
+            <option>Produto</option>
+          </select>
+          <select class="filter-select">
+            <option>Status: Todos</option>
+            <option>Ativos</option>
+            <option>Atrasados</option>
+            <option>Inativos</option>
+          </select>
+          <select class="filter-select">
+            <option>Senioridade: Todos</option>
+          </select>
+          <select class="filter-select">
+            <option>Ordenar: Pontos ↓</option>
+          </select>
+        </div>
+
+        <!-- Team table -->
+        <div class="team-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Funcionário</th>
+                <th>Cargo</th>
+                <th>Departamento</th>
+                <th>Status</th>
+                <th>Último login</th>
+                <th class="num">Pontos</th>
+                <th class="num">Trilhas</th>
+                <th class="num">Workflows</th>
+                <th class="num">Aplicações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">MS</div>
+                    <strong>Mariana Souza</strong>
+                  </div>
+                </td>
+                <td>Analista de Marketing Sênior</td>
+                <td><span class="tag tag-peach">Marketing</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 09:42</td>
+                <td class="num">1.420</td>
+                <td class="num">3</td>
+                <td class="num">5</td>
+                <td class="num text-success">12</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">RF</div>
+                    <strong>Rafael Fernandes</strong>
+                  </div>
+                </td>
+                <td>Account Executive</td>
+                <td><span class="tag tag-pink">Comercial</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 08:15</td>
+                <td class="num">1.180</td>
+                <td class="num">2</td>
+                <td class="num">4</td>
+                <td class="num text-success">9</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">PL</div>
+                    <strong>Patrícia Lima</strong>
+                  </div>
+                </td>
+                <td>Coordenadora de Operações</td>
+                <td><span class="tag tag-butter">Operações</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Ontem, 16:22</td>
+                <td class="num">980</td>
+                <td class="num">2</td>
+                <td class="num">3</td>
+                <td class="num text-success">14</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">CA</div>
+                    Carlos Andrade
+                  </div>
+                </td>
+                <td>Account Executive</td>
+                <td><span class="tag tag-pink">Comercial</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 11:30</td>
+                <td class="num">820</td>
+                <td class="num">2</td>
+                <td class="num">3</td>
+                <td class="num">7</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">DC</div>
+                    Diego Castro
+                  </div>
+                </td>
+                <td>Especialista em Conteúdo</td>
+                <td><span class="tag tag-peach">Marketing</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 10:18</td>
+                <td class="num">740</td>
+                <td class="num">2</td>
+                <td class="num">3</td>
+                <td class="num">6</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">AS</div>
+                    Ana Silva
+                  </div>
+                </td>
+                <td>CS Manager</td>
+                <td><span class="tag tag-lavender">Customer Success</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 14:05</td>
+                <td class="num">680</td>
+                <td class="num">2</td>
+                <td class="num">2</td>
+                <td class="num">5</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">JB</div>
+                    João Bruno Palermo
+                  </div>
+                </td>
+                <td>Analista Comercial Sênior</td>
+                <td><span class="tag tag-pink">Comercial</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 15:12</td>
+                <td class="num">620</td>
+                <td class="num">1</td>
+                <td class="num">3</td>
+                <td class="num">5</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">FT</div>
+                    Fernanda Torres
+                  </div>
+                </td>
+                <td>Product Manager</td>
+                <td><span class="tag tag-mint">Produto</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Ontem, 11:45</td>
+                <td class="num">580</td>
+                <td class="num">2</td>
+                <td class="num">2</td>
+                <td class="num">4</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">LP</div>
+                    Lucas Pereira
+                  </div>
+                </td>
+                <td>Analista de Operações</td>
+                <td><span class="tag tag-butter">Operações</span></td>
+                <td><span class="status-dot status-atrasado"></span>Atrasado</td>
+                <td>4 dias atrás</td>
+                <td class="num">510</td>
+                <td class="num">1</td>
+                <td class="num">2</td>
+                <td class="num text-warn">2</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm">JM</div>
+                    Juliana Martins
+                  </div>
+                </td>
+                <td>CS Specialist</td>
+                <td><span class="tag tag-lavender">Customer Success</span></td>
+                <td><span class="status-dot status-active"></span>Ativo</td>
+                <td>Hoje, 09:00</td>
+                <td class="num">460</td>
+                <td class="num">1</td>
+                <td class="num">2</td>
+                <td class="num">3</td>
+              </tr>
+              <tr style="background: rgba(220, 38, 38, 0.04);">
+                <td>
+                  <div class="flex items-center gap-2">
+                    <div class="avatar avatar-sm" style="background: #FEE2E2; color: #7F1D1D;">RM</div>
+                    Roberto Mendes
+                  </div>
+                </td>
+                <td>Sales Development Rep</td>
+                <td><span class="tag tag-pink">Comercial</span></td>
+                <td><span class="status-dot status-inativo"></span>Inativo</td>
+                <td><span class="text-danger-strong">22 dias atrás</span></td>
+                <td class="num">120</td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num text-danger-strong">0</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pagination">
+            <span>Mostrando 1-11 de 32 funcionários</span>
+            <div class="pagination-controls">
+              <button class="page-btn">‹</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <button class="page-btn">›</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

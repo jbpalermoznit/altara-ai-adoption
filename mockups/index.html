@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altara — Mockups</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .hub {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 64px 32px;
+    }
+    .hub-header {
+      margin-bottom: 48px;
+    }
+    .hub-header h1 {
+      font-size: 56px;
+      line-height: 64px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      color: var(--neutral-900);
+      margin-bottom: 12px;
+    }
+    .hub-header p {
+      font-size: 18px;
+      line-height: 28px;
+      color: var(--neutral-500);
+      max-width: 640px;
+    }
+    .hub-section {
+      margin-top: 48px;
+    }
+    .hub-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--neutral-500);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .hub-grid { grid-template-columns: 1fr; }
+    }
+    .hub-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.18s ease;
+      display: block;
+    }
+    .hub-card:hover {
+      border-color: var(--altara-600);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(91, 71, 232, 0.08);
+    }
+    .hub-card-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--altara-700);
+      background: var(--altara-100);
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hub-card h3 {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+    }
+    .hub-card p {
+      font-size: 14px;
+      line-height: 22px;
+      color: var(--neutral-500);
+    }
+    .hub-card-arrow {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--altara-600);
+      font-weight: 600;
+    }
+    .hub-footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--neutral-200);
+      font-size: 13px;
+      color: var(--neutral-500);
+    }
+    .hub-footer code {
+      background: var(--neutral-100);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub">
+
+    <header class="hub-header">
+      <h1>Altara mockups</h1>
+      <p>Telas navegáveis do produto. Use pra demonstrar visão pra CEOs em reuniões, validar fluxos com clientes piloto, ou como brief visual pra dev.</p>
+    </header>
+
+    <section class="hub-section">
+      <div class="hub-section-title">HQ — Visão líder / CEO</div>
+      <div class="hub-grid">
+        <a href="hq-home.html" class="hub-card">
+          <span class="hub-card-label">Round 1</span>
+          <h3>HQ Home</h3>
+          <p>Dashboard inicial com 4 KPIs, Challenge ativo, próxima ação recomendada, adoção por departamento, casos-âncora.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-section">
+      <div class="hub-section-title">Coach — Visão funcionário · Round 1</div>
+      <div class="hub-grid">
+        <a href="coach-home.html" class="hub-card">
+          <span class="hub-card-label">Round 1</span>
+          <h3>Coach Home</h3>
+          <p>Tela inicial do funcionário. Trilha em andamento, Challenge ativo com countdown, streak, recomendações.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-workflow-handoff.html" class="hub-card">
+          <span class="hub-card-label">Round 1</span>
+          <h3>Workflow handoff</h3>
+          <p>Momento "vale o produto": funcionário desbloqueia workflow real. Passo a passo + prompt + UI de preenchimento.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-certificacao.html" class="hub-card">
+          <span class="hub-card-label">Round 1</span>
+          <h3>Certificação compartilhável</h3>
+          <p>Asset gerado ao completar trilha. Canal estratégico de marketing via colaboradores no LinkedIn.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-section">
+      <div class="hub-section-title">Coach — Apply (Use Case Builder) · Round 2 — coach conversational</div>
+      <div class="hub-grid">
+        <a href="coach-apply-catalogo.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Apply — Catálogo</h3>
+          <p>"Find your AI Use Case". Search bar + filtros + grid de use cases + card destacado "Crie seu próprio". Entrada do flow conversational.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-apply-chat.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Apply — Coach chat</h3>
+          <p>Interface conversational com sidebar de plano da conversa, mensagens, suggested replies clicáveis, Guides na lateral.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-apply-output.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Apply — Output (Action Plan)</h3>
+          <p>Customized prompt + Action Plan numerado + 4 Guides cards + CTAs. Output rico do coach conversational.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-section">
+      <div class="hub-section-title">Coach — Trilha + Lição + Celebração · Round 2</div>
+      <div class="hub-grid">
+        <a href="coach-trilha.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Trilha em execução</h3>
+          <p>Hero da trilha com timeline horizontal, cards de lições (concluída/atual/locked), workflow preview no fundo escuro.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-licao.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Lição interativa</h3>
+          <p>Múltipla escolha de cenário real. Hook + cenário com highlight + 4 opções selecionáveis + feedback estruturado.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-celebracao-intermediaria.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Celebração intermediária</h3>
+          <p>"Bom progresso, continue!" — confetti animado + ring de progresso 60% + preview da próxima lição. Espelha "Good progress" do Section.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-section">
+      <div class="hub-section-title">Onboarding + Coach Persona · Round 2</div>
+      <div class="hub-grid">
+        <a href="coach-onboarding.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Onboarding (7 telas)</h3>
+          <p>Preview do fluxo completo: idioma, nome, cargo, senioridade, ferramenta IA, tarefas, experiência. ~5 minutos.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="coach-persona-intro.html" class="hub-card">
+          <span class="hub-card-label">Round 2</span>
+          <h3>Coach Persona Intro</h3>
+          <p>"Olá, [nome]!" — apresenta o coach pessoal de IA após onboarding. Espelha "Hello there!" do Section. Acontece 1x.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-section">
+      <div class="hub-section-title">HQ profundidade · Round 3</div>
+      <div class="hub-grid">
+        <a href="hq-adocao-roi.html" class="hub-card">
+          <span class="hub-card-label">Round 3</span>
+          <h3>HQ Adoção &amp; ROI</h3>
+          <p>Dashboard detalhado com filtros, ROI hero card preto, tooltip transparente de cálculo, gráfico DAU/WAU, top funcionários, top workflows, casos-âncora detalhados, exportar CSV/PDF.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="hq-challenges.html" class="hub-card">
+          <span class="hub-card-label">Round 3</span>
+          <h3>HQ Challenges expandido</h3>
+          <p>Challenge atual hero com countdown grande + stats strip. Toggle ranking individual / departamento. Leaderboard top 10 + barras por departamento. Histórico com snapshots.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="hq-time.html" class="hub-card">
+          <span class="hub-card-label">Round 3</span>
+          <h3>HQ Time</h3>
+          <p>Lista completa de 32 funcionários com filtros (departamento, status, senioridade). Tabela com cargo, status, último login, pontos, trilhas, workflows, aplicações. Drill-down preview.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="hq-workflows.html" class="hub-card">
+          <span class="hub-card-label">Round 3</span>
+          <h3>HQ Workflows</h3>
+          <p>Biblioteca da empresa com tabs (Ativos/Destaque/Ociosos/Arquivados/Variantes). Cards de workflows com métricas, rating, origem (Trilha/Apply), ações do champion (editar/destaque/arquivar).</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+
+        <a href="floating-assistant.html" class="hub-card">
+          <span class="hub-card-label">Round 3</span>
+          <h3>Floating Assistant</h3>
+          <p>Painel flutuante bottom-right com mini-chat ativo sobre o Coach Home. Conversa com suggested replies + opção de escalar pro Apply completo. Disponível em qualquer tela.</p>
+          <div class="hub-card-arrow">Ver tela →</div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="hub-footer">
+      Mockups consomem <code>styles.css</code> compartilhado. Tipografia <strong>Satoshi</strong> via Fontshare; <strong>JetBrains Mono</strong> via Google Fonts. Cor primária Altara <code>#5B47E8</code> + preto <code>#0A0A0A</code> pra CTAs. Baseado em <a href="../DESIGN_SYSTEM.md" style="color: var(--altara-600);">DESIGN_SYSTEM.md v2</a>.
+    </footer>
+
+  </div>
+
+</body>
+</html>

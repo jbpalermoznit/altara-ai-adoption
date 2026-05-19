@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply Chat — Coach · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .apply-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+      max-width: 1180px;
+    }
+    @media (max-width: 900px) {
+      .apply-layout { grid-template-columns: 1fr; }
+    }
+    .apply-side {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 20px;
+      position: sticky;
+      top: 88px;
+      height: fit-content;
+    }
+    .apply-side-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--neutral-500);
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    .apply-side-back:hover { color: var(--neutral-900); }
+
+    .apply-case-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--neutral-900);
+      margin-bottom: 20px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .plan-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+
+    .plan-step {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--neutral-100);
+    }
+    .plan-step:last-child { border-bottom: none; }
+
+    .plan-step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .plan-step.done .plan-step-dot { background: var(--success); }
+    .plan-step.current .plan-step-dot {
+      background: white;
+      border: 2px solid var(--altara-600);
+      width: 12px;
+      height: 12px;
+      margin-top: 4px;
+      box-shadow: 0 0 0 4px var(--altara-100);
+    }
+    .plan-step.pending .plan-step-dot { background: var(--neutral-300); }
+
+    .plan-step-text {
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--neutral-700);
+    }
+    .plan-step.current .plan-step-text {
+      color: var(--neutral-900);
+      font-weight: 600;
+    }
+    .plan-step.done .plan-step-text {
+      color: var(--neutral-500);
+      text-decoration: line-through;
+    }
+
+    .side-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--neutral-200);
+    }
+
+    .side-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .guides-mini {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .guide-mini {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--neutral-900);
+      line-height: 1.3;
+    }
+    .guide-1 { background: linear-gradient(135deg, #FCD3D6, #FBE0CC); }
+    .guide-2 { background: linear-gradient(135deg, #FBE0CC, #FBF1CB); }
+    .guide-3 { background: linear-gradient(135deg, #D9E8DC, #E5DDF5); }
+    .guide-4 { background: linear-gradient(135deg, #E5DDF5, #FCD3D6); }
+
+    .prompt-preview-side {
+      background: var(--neutral-100);
+      border: 1px dashed var(--neutral-300);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--neutral-700);
+      max-height: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+    .prompt-preview-side::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30px;
+      background: linear-gradient(to bottom, transparent, var(--neutral-100));
+    }
+
+    .chat-main {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--neutral-200);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .coach-orb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--altara-500));
+      flex-shrink: 0;
+    }
+    .chat-header-info h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--neutral-900);
+      line-height: 1.2;
+    }
+    .chat-header-info p {
+      font-size: 12px;
+      color: var(--neutral-500);
+    }
+
+    .chat-body {
+      padding: 28px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .chat-message {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      max-width: 85%;
+    }
+    .chat-message.user {
+      margin-left: auto;
+      flex-direction: row-reverse;
+    }
+
+    .chat-bubble {
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .chat-message:not(.user) .chat-bubble {
+      background: var(--neutral-100);
+      color: var(--neutral-900);
+      border-top-left-radius: 4px;
+    }
+    .chat-message.user .chat-bubble {
+      background: var(--altara-600);
+      color: white;
+      border-top-right-radius: 4px;
+    }
+    .chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .chat-message.user .chat-avatar {
+      background: var(--altara-100);
+      color: var(--altara-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .chat-message:not(.user) .chat-avatar {
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--altara-500));
+    }
+
+    .suggested-replies {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-left: 44px;
+      margin-bottom: 20px;
+      max-width: 600px;
+    }
+    .suggested-reply {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-300);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--neutral-900);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .suggested-reply:hover {
+      border-color: var(--altara-600);
+      background: var(--altara-50);
+    }
+
+    .step-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--altara-50);
+      color: var(--altara-700);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      margin-left: 44px;
+    }
+
+    .chat-input-area {
+      padding: 16px 28px 20px;
+      border-top: 1px solid var(--neutral-200);
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      background: var(--neutral-50);
+      border: 1px solid var(--neutral-300);
+      border-radius: 16px;
+      padding: 8px 8px 8px 16px;
+    }
+    .chat-input:focus-within {
+      border-color: var(--altara-600);
+      background: white;
+    }
+    .chat-input textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--neutral-900);
+      resize: none;
+      padding: 8px 0;
+      min-height: 24px;
+      max-height: 120px;
+    }
+    .chat-input textarea:focus { outline: none; }
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--neutral-900);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .send-btn:hover { background: var(--altara-600); }
+
+    .chat-typing {
+      display: inline-flex;
+      gap: 4px;
+      padding: 14px 16px;
+      background: var(--neutral-100);
+      border-radius: 14px;
+      border-top-left-radius: 4px;
+    }
+    .chat-typing span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--neutral-500);
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .chat-typing span:nth-child(1) { animation-delay: -0.32s; }
+    .chat-typing span:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="coach-apply-catalogo.html">Apply Catálogo</a>
+    <a href="coach-apply-chat.html" class="active">Apply Chat</a>
+    <a href="coach-apply-output.html">Apply Output</a>
+    <a href="coach-home.html">Coach Home</a>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item" href="coach-home.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book"/></svg> Trilhas</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg> Apply</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-user"/></svg> Perfil</a>
+      <a class="nav-item" style="margin-top: 16px; color: var(--altara-600); font-weight: 600;">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#i-plus"/></svg> Solicitar trilha
+      </a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Comercial</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">JB</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <div class="apply-layout">
+
+          <!-- Sidebar do Apply -->
+          <aside class="apply-side">
+            <a class="apply-side-back" href="coach-apply-catalogo.html">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg>
+              Voltar pro Apply
+            </a>
+            <div class="apply-case-name">Briefing pré-reunião com cliente</div>
+
+            <div class="plan-steps">
+              <div class="plan-step done">
+                <div class="plan-step-dot"></div>
+                <div class="plan-step-text">Defina o caso de uso</div>
+              </div>
+              <div class="plan-step done">
+                <div class="plan-step-dot"></div>
+                <div class="plan-step-text">Qual o tipo de cliente?</div>
+              </div>
+              <div class="plan-step current">
+                <div class="plan-step-dot"></div>
+                <div class="plan-step-text">Que informações o briefing deve incluir?</div>
+              </div>
+              <div class="plan-step pending">
+                <div class="plan-step-dot"></div>
+                <div class="plan-step-text">Contexto adicional</div>
+              </div>
+            </div>
+
+            <div class="side-section">
+              <div class="side-section-title">Guides</div>
+              <div class="guides-mini">
+                <div class="guide-mini guide-1">Por que usar IA</div>
+                <div class="guide-mini guide-2">Aproveitando ferramentas</div>
+                <div class="guide-mini guide-3">Verificando output</div>
+                <div class="guide-mini guide-4">Iterando com IA</div>
+              </div>
+            </div>
+
+            <div class="side-section">
+              <div class="side-section-title">Prompt sendo construído</div>
+              <div class="prompt-preview-side">Você é assistente comercial...
+
+Tarefa: gerar briefing pré-reunião pra cliente do setor [SETOR]...</div>
+            </div>
+          </aside>
+
+          <!-- Chat -->
+          <section class="chat-main">
+
+            <div class="chat-header">
+              <div class="coach-orb"></div>
+              <div class="chat-header-info">
+                <h3>Altara Coach</h3>
+                <p>Estou ajudando você a construir um briefing pré-reunião personalizado</p>
+              </div>
+            </div>
+
+            <div class="chat-body">
+
+              <!-- Mensagem inicial Coach -->
+              <div class="chat-message">
+                <div class="chat-avatar"></div>
+                <div class="chat-bubble">
+                  Oi João Bruno! Vamos construir esse briefing pré-reunião juntos. Antes de gerar o plano, preciso entender melhor seu caso.
+                </div>
+              </div>
+
+              <!-- Step 1 done -->
+              <div class="step-counter">Etapa 1 de 4</div>
+              <div class="chat-message">
+                <div class="chat-avatar"></div>
+                <div class="chat-bubble">
+                  Pra qual tipo de reunião você quer preparar briefings? Pode ser primeira call de descoberta, follow-up técnico, fechamento... me conta.
+                </div>
+              </div>
+
+              <div class="chat-message user">
+                <div class="chat-avatar">JB</div>
+                <div class="chat-bubble">
+                  Primeira reunião de descoberta com prospects que vieram via indicação. Geralmente cliente B2B mid-market do setor de varejo ou serviços.
+                </div>
+              </div>
+
+              <!-- Step 2 done -->
+              <div class="step-counter">Etapa 2 de 4</div>
+              <div class="chat-message">
+                <div class="chat-avatar"></div>
+                <div class="chat-bubble">
+                  Show. Reunião de descoberta com B2B mid-market do varejo/serviços, via indicação. Esse contexto é ouro — a indicação muda bastante o tom da call.
+                </div>
+              </div>
+
+              <!-- Step 3 - current -->
+              <div class="step-counter">Etapa 3 de 4 · agora</div>
+              <div class="chat-message">
+                <div class="chat-avatar"></div>
+                <div class="chat-bubble">
+                  Que tipo de informação o briefing precisa cobrir antes da reunião? Marca o que faz mais sentido — pode escolher múltiplas.
+                </div>
+              </div>
+
+              <div class="suggested-replies">
+                <button class="suggested-reply">Contexto da empresa (setor, tamanho, faturamento, modelo)</button>
+                <button class="suggested-reply">Pessoas envolvidas (cargos, histórico no LinkedIn, conexões mutuais)</button>
+                <button class="suggested-reply">Histórico de interações (e-mails, reuniões anteriores, comunicações)</button>
+                <button class="suggested-reply">Dores típicas do setor + como ZNIT resolve</button>
+                <button class="suggested-reply">Perguntas estratégicas pra fazer na call</button>
+              </div>
+
+            </div>
+
+            <div class="chat-input-area">
+              <div class="chat-input">
+                <textarea placeholder="Ou escreva sua resposta..." rows="1"></textarea>
+                <button class="send-btn">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

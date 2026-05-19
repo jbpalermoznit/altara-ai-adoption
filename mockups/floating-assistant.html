@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floating Assistant · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Background page — Coach Home preview muito simplificado */
+    .bg-page {
+      filter: blur(0px);
+    }
+
+    /* Floating chat panel */
+    .fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--altara-600);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(91, 71, 232, 0.35);
+      cursor: pointer;
+      z-index: 50;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+    .fab:hover { transform: scale(1.05); }
+    .fab.hidden { display: none; }
+
+    .fab-panel {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 380px;
+      max-height: calc(100vh - 48px);
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.16);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .fab-panel-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--neutral-200);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .coach-orb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--altara-500));
+      flex-shrink: 0;
+    }
+
+    .fab-panel-header-info {
+      flex: 1;
+    }
+    .fab-panel-header-info h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--neutral-900);
+      line-height: 1.2;
+    }
+    .fab-panel-header-info p {
+      font-size: 12px;
+      color: var(--neutral-500);
+    }
+
+    .fab-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--neutral-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fab-close:hover { background: var(--neutral-100); }
+
+    .fab-body {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 480px;
+    }
+
+    .fab-msg {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      max-width: 85%;
+    }
+    .fab-msg.user {
+      margin-left: auto;
+      flex-direction: row-reverse;
+    }
+    .fab-bubble {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .fab-msg:not(.user) .fab-bubble {
+      background: var(--neutral-100);
+      color: var(--neutral-900);
+      border-top-left-radius: 4px;
+    }
+    .fab-msg.user .fab-bubble {
+      background: var(--altara-600);
+      color: white;
+      border-top-right-radius: 4px;
+    }
+    .fab-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .fab-msg.user .fab-avatar {
+      background: var(--altara-100);
+      color: var(--altara-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .fab-msg:not(.user) .fab-avatar {
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--altara-500));
+    }
+
+    .suggested-mini {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-left: 36px;
+      margin-bottom: 14px;
+    }
+    .suggested-mini button {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-300);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--neutral-900);
+      text-align: left;
+      cursor: pointer;
+    }
+    .suggested-mini button:hover {
+      border-color: var(--altara-600);
+      background: var(--altara-50);
+    }
+
+    .fab-input {
+      padding: 12px 16px;
+      border-top: 1px solid var(--neutral-200);
+    }
+    .fab-input-wrapper {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: var(--neutral-50);
+      border: 1px solid var(--neutral-300);
+      border-radius: 12px;
+      padding: 6px 6px 6px 12px;
+    }
+    .fab-input-wrapper input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 13px;
+      color: var(--neutral-900);
+      padding: 6px 0;
+    }
+    .fab-input-wrapper input:focus { outline: none; }
+    .fab-send {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--neutral-900);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fab-escalate {
+      padding: 10px 16px;
+      border-top: 1px solid var(--neutral-200);
+      background: var(--neutral-50);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--neutral-700);
+    }
+    .fab-escalate a {
+      color: var(--altara-600);
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Annotation explicativa do mockup (não faz parte do produto) */
+    .annotation {
+      position: fixed;
+      bottom: 100px;
+      right: 420px;
+      background: var(--neutral-900);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 280px;
+      font-size: 13px;
+      line-height: 1.5;
+      z-index: 60;
+    }
+    .annotation::after {
+      content: '';
+      position: absolute;
+      bottom: 30px;
+      right: -8px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid var(--neutral-900);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+    @media (max-width: 900px) {
+      .annotation { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="coach-home.html">Coach Home</a>
+    <a href="coach-apply-chat.html">Apply Chat (versão completa)</a>
+    <a href="floating-assistant.html" class="active">Floating Assistant</a>
+  </div>
+
+  <!-- Background page (Coach Home simplificado) -->
+  <div class="app bg-page">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book"/></svg> Trilhas</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg> Apply</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-user"/></svg> Perfil</a>
+      <a class="nav-item" style="margin-top: 16px; color: var(--altara-600); font-weight: 600;">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#i-plus"/></svg> Solicitar trilha
+      </a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Comercial</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">JB</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <div class="mb-6">
+          <h1 class="h1">Olá, João Bruno</h1>
+          <p class="body-lg text-muted mt-2">Continue de onde parou — você está perto de desbloquear um workflow novo.</p>
+        </div>
+
+        <div class="card-hero mb-6">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="tag tag-lavender">Fundamentos</span>
+            <span class="body-sm text-muted">~15min restantes</span>
+          </div>
+          <h2 class="h2 mb-3">Fundamentos de IA pro Comercial</h2>
+          <p class="body mb-6">Lição 3 de 5: Como usar Copilot pra preparar reuniões de prospecção em metade do tempo.</p>
+
+          <div class="timeline mb-3" style="max-width: 480px;">
+            <div class="timeline-dot completed"></div>
+            <div class="timeline-line completed"></div>
+            <div class="timeline-dot completed"></div>
+            <div class="timeline-line completed"></div>
+            <div class="timeline-dot current"></div>
+            <div class="timeline-line"></div>
+            <div class="timeline-dot pending"></div>
+            <div class="timeline-line"></div>
+            <div class="timeline-dot pending"></div>
+          </div>
+
+          <button class="btn btn-primary btn-lg">
+            Continuar lição
+          </button>
+        </div>
+
+        <div style="height: 200px; background: var(--neutral-100); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: var(--neutral-500); font-size: 13px;">
+          (resto da tela Coach Home — escondida pelo painel flutuante)
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Annotation (não faz parte do produto) -->
+  <div class="annotation">
+    <strong style="color: var(--altara-200);">Floating Assistant</strong><br>
+    Disponível em <strong>qualquer tela</strong> do Coach. Funcionário aciona pra dúvida rápida sem perder contexto. Pode escalar pro Apply completo se a conversa virar algo maior.
+  </div>
+
+  <!-- Floating chat panel (aberto) -->
+  <aside class="fab-panel">
+    <div class="fab-panel-header">
+      <div class="coach-orb"></div>
+      <div class="fab-panel-header-info">
+        <h3>Altara Coach</h3>
+        <p>Pergunta rápida ou explicação curta</p>
+      </div>
+      <button class="fab-close">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-x"/></svg>
+      </button>
+    </div>
+
+    <div class="fab-body">
+
+      <!-- Mensagem inicial -->
+      <div class="fab-msg">
+        <div class="fab-avatar"></div>
+        <div class="fab-bubble">Oi João Bruno! Posso te ajudar com alguma dúvida rápida? Pergunte sobre o produto ou conceitos de IA.</div>
+      </div>
+
+      <div class="suggested-mini">
+        <button>Como reportar uma aplicação real?</button>
+        <button>O que é o Challenge atual?</button>
+        <button>O que é um placeholder?</button>
+      </div>
+
+      <!-- Conversa -->
+      <div class="fab-msg user">
+        <div class="fab-avatar">JB</div>
+        <div class="fab-bubble">o que é placeholder no prompt?</div>
+      </div>
+
+      <div class="fab-msg">
+        <div class="fab-avatar"></div>
+        <div class="fab-bubble">
+          Placeholders são marcadores tipo <strong>{nome_cliente}</strong> ou <strong>{produto}</strong> dentro de um prompt. Quando você clica "Usar agora" no workflow, abre um formulário pra você preencher esses campos antes do prompt ser copiado.<br><br>
+          Assim você não precisa editar o prompt manualmente — só preenche os slots e o Coach monta o texto final.
+        </div>
+      </div>
+
+      <div class="fab-msg user">
+        <div class="fab-avatar">JB</div>
+        <div class="fab-bubble">e se eu quiser criar workflow com placeholder próprio?</div>
+      </div>
+
+      <div class="fab-msg">
+        <div class="fab-avatar"></div>
+        <div class="fab-bubble">
+          Boa pergunta — pra criar do zero, ir pro <strong>Apply (área do Coach)</strong> e clicar "Criar use case próprio". Eu te ajudo na conversa a definir o que precisa virar placeholder.<br><br>
+          Quer abrir o Apply agora?
+        </div>
+      </div>
+
+      <div class="suggested-mini">
+        <button>Sim, abrir Apply</button>
+        <button>Não, talvez depois</button>
+      </div>
+
+    </div>
+
+    <div class="fab-input">
+      <div class="fab-input-wrapper">
+        <input type="text" placeholder="Pergunta rápida...">
+        <button class="fab-send">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="fab-escalate">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" style="color: var(--altara-600);"><use href="#i-external"/></svg>
+      <span>Conversa ficando complexa? <a href="coach-apply-chat.html">Escalar pro Apply completo →</a></span>
+    </div>
+  </aside>
+
+</body>
+</html>

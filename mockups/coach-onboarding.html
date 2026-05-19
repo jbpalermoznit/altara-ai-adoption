@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding pessoal · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: var(--neutral-50); }
+
+    .onboarding-page {
+      min-height: calc(100vh - 40px);
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .onboarding-header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 720px;
+    }
+    .onboarding-header h1 {
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .onboarding-header p {
+      font-size: 15px;
+      color: var(--neutral-500);
+    }
+
+    .onboarding-progress {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 580px;
+      margin: 0 auto 40px;
+    }
+    .step-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--neutral-200);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .step-bar.filled { background: var(--altara-600); }
+    .step-bar.current { background: linear-gradient(to right, var(--altara-600) 50%, var(--neutral-200) 50%); }
+
+    .steps-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1280px;
+    }
+
+    .step-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 20px;
+      padding: 32px 28px;
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .step-card-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--altara-700);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .step-card-question {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin-bottom: 6px;
+      color: var(--neutral-900);
+    }
+
+    .step-card-hint {
+      font-size: 13px;
+      color: var(--neutral-500);
+      margin-bottom: 20px;
+    }
+
+    .step-card-input {
+      width: 100%;
+      border: 1px solid var(--neutral-300);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--neutral-50);
+      margin-bottom: 12px;
+    }
+
+    .step-card-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-option {
+      padding: 10px 14px;
+      border: 1px solid var(--neutral-200);
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background: var(--neutral-0);
+    }
+    .step-option:hover { border-color: var(--altara-300, #C7B8FC); background: var(--altara-50); }
+    .step-option.selected {
+      border-color: var(--altara-600);
+      background: var(--altara-50);
+      color: var(--altara-700);
+      font-weight: 600;
+    }
+
+    .step-card-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .chip {
+      padding: 6px 12px;
+      background: var(--neutral-100);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--neutral-700);
+      cursor: pointer;
+    }
+    .chip.selected {
+      background: var(--altara-100);
+      color: var(--altara-700);
+      font-weight: 600;
+    }
+
+    .final-card {
+      background: linear-gradient(135deg, var(--altara-600), var(--altara-700));
+      color: white;
+      border: none;
+    }
+    .final-card .step-card-num { color: rgba(255,255,255,0.7); }
+    .final-card .step-card-question { color: white; font-size: 22px; }
+    .final-card .step-card-hint { color: rgba(255,255,255,0.7); }
+
+    .footer-note {
+      max-width: 580px;
+      margin: 40px auto 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--neutral-500);
+      padding: 16px 20px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="coach-onboarding.html" class="active">Onboarding</a>
+    <a href="coach-persona-intro.html">Coach Persona Intro</a>
+    <a href="coach-home.html">Coach Home</a>
+  </div>
+
+  <div class="onboarding-page">
+
+    <div class="onboarding-header">
+      <h1>Vamos personalizar sua jornada</h1>
+      <p>7 perguntas rápidas · ~5 minutos · pode pular qualquer uma (gera com defaults)</p>
+    </div>
+
+    <div class="onboarding-progress">
+      <div class="step-bar filled"></div>
+      <div class="step-bar filled"></div>
+      <div class="step-bar filled"></div>
+      <div class="step-bar filled"></div>
+      <div class="step-bar filled"></div>
+      <div class="step-bar filled"></div>
+      <div class="step-bar filled"></div>
+    </div>
+
+    <div style="text-align: center; margin: -24px 0 32px; font-size: 13px; color: var(--neutral-500);">
+      Visão geral das 7 telas (preview do fluxo completo)
+    </div>
+
+    <div class="steps-row">
+
+      <!-- Tela 1: Idioma -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 1 de 7</div>
+        <div class="step-card-question">Idioma</div>
+        <div class="step-card-hint">Você pode mudar depois nas configurações.</div>
+        <div class="step-card-options">
+          <div class="step-option selected">Português (BR)</div>
+          <div class="step-option" style="opacity: 0.5;">English (em breve)</div>
+        </div>
+      </div>
+
+      <!-- Tela 2: Nome -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 2 de 7</div>
+        <div class="step-card-question">Confirme seu nome</div>
+        <div class="step-card-hint">Pré-preenchido pela ZNIT. Você pode usar apelido se preferir.</div>
+        <input class="step-card-input" value="João Bruno Palermo">
+        <div style="font-size: 12px; color: var(--neutral-500);">→ "Apelido" disponível pra privacidade no ranking</div>
+      </div>
+
+      <!-- Tela 3: Cargo + departamento -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 3 de 7</div>
+        <div class="step-card-question">Cargo + departamento</div>
+        <div class="step-card-hint">Pré-preenchido pela empresa. Ajuste se sua função real for diferente.</div>
+        <input class="step-card-input" value="Analista comercial sênior">
+        <input class="step-card-input" value="Comercial" style="margin-top: 8px;">
+      </div>
+
+      <!-- Tela 4: Senioridade -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 4 de 7</div>
+        <div class="step-card-question">Senioridade</div>
+        <div class="step-card-hint">Calibra a complexidade das trilhas geradas.</div>
+        <div class="step-card-options">
+          <div class="step-option">Júnior</div>
+          <div class="step-option">Pleno</div>
+          <div class="step-option selected">Sênior</div>
+          <div class="step-option">Diretor</div>
+        </div>
+      </div>
+
+      <!-- Tela 5: Ferramenta IA -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 5 de 7</div>
+        <div class="step-card-question">Ferramenta IA preferida</div>
+        <div class="step-card-hint">Você terá acesso a todas que a ZNIT paga — escolha a que vai usar mais.</div>
+        <div class="step-card-options">
+          <div class="step-option selected">Microsoft Copilot</div>
+          <div class="step-option">ChatGPT Enterprise</div>
+          <div class="step-option">Claude</div>
+        </div>
+      </div>
+
+      <!-- Tela 6: Tarefas-tipo -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 6 de 7</div>
+        <div class="step-card-question">Tarefas-tipo recorrentes</div>
+        <div class="step-card-hint">Marque as que você mais faz ou adicione próprias.</div>
+        <div class="step-card-chips">
+          <div class="chip selected">Prospectar leads</div>
+          <div class="chip selected">Preparar reuniões</div>
+          <div class="chip">Redigir e-mails</div>
+          <div class="chip selected">Escrever propostas</div>
+          <div class="chip">Fazer pesquisas</div>
+          <div class="chip">Triagem</div>
+          <div class="chip">+ adicionar</div>
+        </div>
+      </div>
+
+      <!-- Tela 7: Experiência IA -->
+      <div class="step-card">
+        <div class="step-card-num">Passo 7 de 7</div>
+        <div class="step-card-question">Experiência com IA</div>
+        <div class="step-card-hint">Define o ritmo das primeiras lições.</div>
+        <div class="step-card-options">
+          <div class="step-option">Iniciante — uso pouco IA</div>
+          <div class="step-option selected">Intermediário — uso frequente</div>
+          <div class="step-option">Avançado — construo coisas</div>
+        </div>
+      </div>
+
+      <!-- Tela final -->
+      <div class="step-card final-card">
+        <div class="step-card-num">Final</div>
+        <div class="step-card-question">Pronto! Vamos conhecer seu Coach.</div>
+        <div class="step-card-hint">Sua primeira trilha personalizada já tá sendo gerada. Próxima tela: a apresentação do Coach.</div>
+        <a href="coach-persona-intro.html" class="btn btn-primary" style="background: var(--neutral-0); color: var(--altara-700); margin-top: auto;">
+          Conhecer meu Coach
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      <strong>Princípio:</strong> nenhuma pergunta trava o funcionário. Se pular qualquer uma, trilha é gerada com defaults sensatos e refinada conforme uso. Onboarding leva ~5 minutos no total — depois Coach Persona Intro (1 min) e já entra na primeira lição.
+    </div>
+
+  </div>
+
+</body>
+</html>

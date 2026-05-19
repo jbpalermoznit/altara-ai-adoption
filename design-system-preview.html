@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Altara — Design System Preview v2</title>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Altara primary — purple/violet (Section-leaning, mais quente que indigo puro) */
+      --altara-50: #F4F1FE;
+      --altara-100: #E8E3FD;
+      --altara-200: #D2C9FB;
+      --altara-500: #7B6BE8;
+      --altara-600: #5B47E8;   /* PRIMARY accent */
+      --altara-700: #4B38C7;
+
+      /* Preto — CTA principal (Section-style: CTAs em preto sólido) */
+      --black: #0A0A0A;
+      --black-soft: #2A2A2A;
+
+      /* Neutros — off-white quente (Section vibe), não cinza neutro frio */
+      --neutral-0: #FFFFFF;
+      --neutral-50: #FAFAF7;
+      --neutral-100: #F5F4F0;
+      --neutral-200: #EAE8E2;
+      --neutral-300: #D8D5CD;
+      --neutral-500: #78766F;
+      --neutral-700: #3F3D38;
+      --neutral-900: #18181B;
+
+      /* Tags pastéis quentes (Section-style) */
+      --tag-pink-bg: #FCD3D6;
+      --tag-pink-text: #8B2B3A;
+      --tag-peach-bg: #FBE0CC;
+      --tag-peach-text: #8C4E1F;
+      --tag-mint-bg: #D9E8DC;
+      --tag-mint-text: #2D5C3A;
+      --tag-lavender-bg: #E5DDF5;
+      --tag-lavender-text: #51388A;
+      --tag-butter-bg: #FBF1CB;
+      --tag-butter-text: #7A5A12;
+
+      /* Semânticas (para alertas funcionais — usar com parcimônia) */
+      --success: #16A34A;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --info: #0284C7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Satoshi', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--neutral-50);
+      color: var(--neutral-900);
+      line-height: 1.5;
+    }
+
+    .serif {
+      /* display em Satoshi com tracking apertado — emulando vibe Section title */
+      font-family: 'Satoshi', 'Inter', system-ui, -apple-system, sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 32px; }
+
+    .page-header {
+      padding: 56px 32px 48px;
+      background: var(--neutral-0);
+      border-bottom: 1px solid var(--neutral-200);
+    }
+    .page-header h1 {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 48px; line-height: 56px; font-weight: 500;
+      letter-spacing: -0.025em; color: var(--neutral-900);
+    }
+    .page-header p {
+      font-size: 18px; line-height: 28px;
+      color: var(--neutral-500); margin-top: 12px;
+    }
+
+    section { margin: 72px 0; }
+    section h2 {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 32px; line-height: 40px; font-weight: 500;
+      color: var(--neutral-900); margin-bottom: 24px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);
+      letter-spacing: -0.02em;
+    }
+    section h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; line-height: 20px; font-weight: 600;
+      color: var(--neutral-500); margin-bottom: 16px; margin-top: 32px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* SVG icons (Lucide-inspired, inline) */
+    .icon {
+      width: 20px; height: 20px;
+      stroke: currentColor; stroke-width: 1.75;
+      stroke-linecap: round; stroke-linejoin: round;
+      fill: none; display: inline-block; flex-shrink: 0;
+    }
+    .icon-sm { width: 16px; height: 16px; }
+    .icon-lg { width: 24px; height: 24px; }
+
+    /* Color swatches */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .swatch {
+      border: 1px solid var(--neutral-200);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--neutral-0);
+    }
+    .swatch-color { height: 88px; }
+    .swatch-info { padding: 12px 16px; }
+    .swatch-name {
+      font-size: 13px; font-weight: 600; color: var(--neutral-900);
+    }
+    .swatch-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--neutral-500); margin-top: 2px;
+    }
+
+    /* Tipografia */
+    .type-row {
+      display: flex; align-items: baseline; gap: 32px;
+      padding: 20px 0; border-bottom: 1px solid var(--neutral-100);
+    }
+    .type-label {
+      width: 130px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; font-weight: 500; color: var(--neutral-500);
+    }
+    .type-meta { width: 180px; font-size: 12px; color: var(--neutral-500); }
+    .type-sample { flex: 1; color: var(--neutral-900); }
+
+    /* Botões */
+    .button-group {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      align-items: center; margin-bottom: 12px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 600;
+      padding: 12px 20px; border-radius: 999px;
+      border: 1px solid transparent; cursor: pointer;
+      transition: all 0.15s ease; line-height: 1;
+    }
+    .btn-primary { background: var(--black); color: white; }
+    .btn-primary:hover { background: var(--black-soft); }
+
+    .btn-accent { background: var(--altara-600); color: white; }
+    .btn-accent:hover { background: var(--altara-700); }
+
+    .btn-secondary {
+      background: var(--neutral-0);
+      border-color: var(--neutral-300); color: var(--neutral-900);
+    }
+    .btn-secondary:hover { background: var(--neutral-50); border-color: var(--neutral-500); }
+
+    .btn-ghost { background: transparent; color: var(--neutral-900); }
+    .btn-ghost:hover { background: var(--neutral-100); }
+
+    .btn-danger {
+      background: var(--neutral-0);
+      border-color: var(--danger); color: var(--danger);
+    }
+    .btn-danger:hover { background: #FEE2E2; }
+
+    .btn-disabled {
+      background: var(--neutral-200); color: var(--neutral-500);
+      cursor: not-allowed;
+    }
+    .btn-sm { font-size: 13px; padding: 8px 14px; }
+    .btn-lg { font-size: 17px; padding: 16px 28px; }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .kpi-label {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; font-weight: 500;
+      color: var(--neutral-500); margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .kpi-help {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--neutral-100); color: var(--neutral-500);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600;
+    }
+    .kpi-value {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 40px; font-weight: 500;
+      line-height: 48px; color: var(--neutral-900);
+      letter-spacing: -0.03em;
+    }
+    .kpi-delta {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 13px; margin-top: 8px; font-weight: 600;
+    }
+    .kpi-delta.positive { color: var(--success); }
+    .kpi-delta.negative { color: var(--danger); }
+    .kpi-baseline {
+      font-size: 12px; color: var(--neutral-500); margin-top: 4px;
+    }
+
+    /* Tags / badges */
+    .badge-row {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      align-items: center; margin-bottom: 16px;
+    }
+    .tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 6px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .tag-pink { background: var(--tag-pink-bg); color: var(--tag-pink-text); }
+    .tag-peach { background: var(--tag-peach-bg); color: var(--tag-peach-text); }
+    .tag-mint { background: var(--tag-mint-bg); color: var(--tag-mint-text); }
+    .tag-lavender { background: var(--tag-lavender-bg); color: var(--tag-lavender-text); }
+    .tag-butter { background: var(--tag-butter-bg); color: var(--tag-butter-text); }
+    .tag-neutral { background: var(--neutral-100); color: var(--neutral-700); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 13px; font-weight: 500;
+    }
+    .badge-ativo { background: #DCFCE7; color: #14532D; }
+    .badge-ocioso { background: #FEF3C7; color: #78350F; }
+    .badge-atrasado { background: #FEE2E2; color: #7F1D1D; }
+
+    /* Progress */
+    .progress {
+      width: 100%; height: 8px;
+      background: var(--neutral-200);
+      border-radius: 9999px; overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-fill { height: 100%; background: var(--altara-600); border-radius: 9999px; }
+    .progress-label { font-size: 13px; color: var(--neutral-500); }
+
+    /* Timeline horizontal */
+    .timeline {
+      display: flex; align-items: center; gap: 0;
+      margin: 24px 0; max-width: 480px;
+    }
+    .timeline-dot {
+      width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+    }
+    .timeline-dot.completed { background: var(--altara-600); }
+    .timeline-dot.current {
+      background: white; border: 2.5px solid var(--altara-600);
+      position: relative; width: 16px; height: 16px;
+    }
+    .timeline-dot.current::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px; height: 6px;
+      background: var(--altara-600); border-radius: 50%;
+    }
+    .timeline-dot.pending {
+      background: var(--neutral-0); border: 2px solid var(--neutral-300);
+    }
+    .timeline-line { flex: 1; height: 2px; background: var(--neutral-200); }
+    .timeline-line.completed { background: var(--altara-600); }
+
+    /* Streak indicator (sem emoji) */
+    .streak {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      color: var(--neutral-900);
+      padding: 8px 14px; border-radius: 9999px;
+      font-size: 14px; font-weight: 600;
+    }
+    .streak-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--altara-600);
+    }
+    .streak-count {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 16px; font-weight: 600;
+    }
+
+    /* Leaderboard */
+    .leaderboard {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px; overflow: hidden;
+      max-width: 520px;
+    }
+    .leaderboard-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--neutral-100);
+    }
+    .leaderboard-row:last-child { border-bottom: none; }
+    .leaderboard-row.you {
+      background: var(--altara-50);
+      border-left: 3px solid var(--altara-600);
+    }
+    .leaderboard-rank {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 20px; font-weight: 600;
+      color: var(--neutral-900); width: 40px;
+      letter-spacing: -0.02em;
+    }
+    .leaderboard-medal {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Satoshi', 'Inter', sans-serif;
+      font-size: 14px; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+    .medal-1 { background: #C9A227; }
+    .medal-2 { background: #8A8A8A; }
+    .medal-3 { background: #A06030; }
+
+    .leaderboard-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--altara-100); color: var(--altara-700);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; flex-shrink: 0;
+    }
+    .leaderboard-info { flex: 1; min-width: 0; }
+    .leaderboard-name {
+      font-size: 15px; font-weight: 500; color: var(--neutral-900);
+    }
+    .leaderboard-dept { font-size: 12px; color: var(--neutral-500); margin-top: 2px; }
+    .leaderboard-points {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 20px; font-weight: 600; color: var(--neutral-900);
+      letter-spacing: -0.02em;
+    }
+
+    /* Inputs */
+    .input-group { max-width: 420px; margin-bottom: 20px; }
+    .input-label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--neutral-700); margin-bottom: 6px;
+    }
+    .input {
+      width: 100%; border: 1px solid var(--neutral-300);
+      border-radius: 10px; padding: 12px 16px;
+      font-family: 'Inter', sans-serif; font-size: 15px;
+      color: var(--neutral-900); background: var(--neutral-0);
+      transition: border 0.15s ease, box-shadow 0.15s ease;
+    }
+    .input:focus {
+      outline: none;
+      border-color: var(--altara-600);
+      box-shadow: 0 0 0 3px var(--altara-100);
+    }
+    .input-helper {
+      font-size: 13px; color: var(--neutral-500); margin-top: 6px;
+    }
+    textarea.input { resize: vertical; min-height: 88px; font-family: 'Inter', sans-serif; }
+
+    /* Workflow handoff */
+    .workflow-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 20px; overflow: hidden;
+      max-width: 720px;
+    }
+    .workflow-header {
+      padding: 28px 32px;
+      background: linear-gradient(135deg, var(--altara-50), var(--altara-100));
+      border-bottom: 1px solid var(--neutral-200);
+    }
+    .workflow-title {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 28px; font-weight: 500;
+      color: var(--neutral-900); margin-bottom: 6px;
+      letter-spacing: -0.025em;
+    }
+    .workflow-subtitle {
+      font-size: 16px; color: var(--neutral-700);
+    }
+    .workflow-meta {
+      display: flex; gap: 16px; align-items: center;
+      flex-wrap: wrap; font-size: 13px;
+      color: var(--neutral-700); margin-top: 16px;
+    }
+    .workflow-meta-item {
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .workflow-body { padding: 28px 32px; }
+
+    .prompt-block {
+      background: var(--neutral-900);
+      color: #E4E4E7;
+      border-radius: 12px;
+      padding: 18px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; line-height: 1.7;
+      position: relative; margin: 16px 0;
+      white-space: pre-wrap;
+    }
+    .placeholder {
+      background: var(--tag-peach-bg); color: var(--tag-peach-text);
+      padding: 1px 6px; border-radius: 4px; font-weight: 600;
+    }
+    .prompt-copy {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(255,255,255,0.1); color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 12px; border-radius: 8px;
+      font-size: 12px; font-family: inherit;
+      cursor: pointer; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .prompt-copy:hover { background: rgba(255,255,255,0.18); }
+
+    .workflow-actions {
+      display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;
+    }
+
+    /* Layout demo */
+    .layout-demo {
+      display: flex;
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px; overflow: hidden;
+      background: var(--neutral-0); min-height: 520px;
+    }
+    .layout-sidebar {
+      width: 220px; background: var(--neutral-50);
+      padding: 24px 16px;
+      border-right: 1px solid var(--neutral-200);
+    }
+    .layout-sidebar-logo {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 24px; font-weight: 600;
+      color: var(--neutral-900);
+      padding: 0 12px 32px;
+      letter-spacing: -0.02em;
+    }
+    .layout-nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 8px;
+      font-size: 14px; color: var(--neutral-700);
+      margin-bottom: 2px; cursor: pointer;
+    }
+    .layout-nav-item.active {
+      background: var(--neutral-0);
+      color: var(--neutral-900); font-weight: 600;
+      border: 1px solid var(--neutral-200);
+    }
+    .layout-nav-item:hover:not(.active) { background: var(--neutral-100); }
+
+    .layout-main { flex: 1; padding: 32px 40px; }
+    .layout-greeting {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 32px; font-weight: 500;
+      color: var(--neutral-900); margin-bottom: 4px;
+      letter-spacing: -0.025em;
+    }
+    .layout-subgreeting {
+      font-size: 15px; color: var(--neutral-500); margin-bottom: 28px;
+    }
+    .layout-kpis {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .layout-kpis { grid-template-columns: 1fr 1fr; }
+      .layout-demo { flex-direction: column; }
+      .layout-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--neutral-200); }
+    }
+
+    /* Note */
+    .note {
+      background: var(--altara-50);
+      border-left: 3px solid var(--altara-600);
+      padding: 14px 18px; border-radius: 4px;
+      font-size: 14px; color: var(--neutral-700);
+      margin: 16px 0;
+    }
+    .note code {
+      background: var(--neutral-100); padding: 2px 6px;
+      border-radius: 4px; font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Certificate */
+    .cert {
+      background: linear-gradient(135deg, #FFFFFF, var(--altara-50));
+      border: 2px solid var(--altara-200);
+      border-radius: 20px; padding: 36px 44px;
+      max-width: 480px; text-align: center;
+      box-shadow: 0 16px 48px rgba(91, 71, 232, 0.12);
+    }
+    .cert-label {
+      font-size: 11px; font-weight: 700;
+      color: var(--altara-700);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .cert-title {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-size: 32px; font-weight: 500;
+      color: var(--neutral-900); margin-bottom: 12px;
+      letter-spacing: -0.025em; line-height: 1.15;
+    }
+    .cert-subtitle {
+      font-size: 15px; color: var(--neutral-700); margin-bottom: 24px;
+    }
+    .cert-stats {
+      display: flex; justify-content: center; gap: 36px;
+      margin: 28px 0 16px;
+    }
+    .cert-stat-value {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-weight: 600; color: var(--neutral-900); font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .cert-stat-label {
+      color: var(--neutral-500); font-size: 11px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      font-weight: 600; margin-top: 2px;
+    }
+    .cert-stamp {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-top: 20px; padding-top: 20px;
+      border-top: 1px solid var(--neutral-200);
+      font-size: 12px; color: var(--neutral-500);
+    }
+    .cert-logo {
+      font-family: 'Satoshi', 'Inter', system-ui, sans-serif;
+      font-weight: 600; color: var(--neutral-900);
+      letter-spacing: -0.02em; font-size: 16px;
+    }
+    .cert-validate {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--neutral-500);
+    }
+
+    /* Action card (recommended) */
+    .action-card {
+      padding: 16px 20px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-left: 3px solid var(--altara-600);
+      border-radius: 8px;
+      display: flex; gap: 16px; align-items: center;
+      margin-top: 24px;
+    }
+    .action-card-text { flex: 1; }
+    .action-card-title {
+      font-size: 13px; font-weight: 600;
+      color: var(--altara-700);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .action-card-desc {
+      font-size: 15px; color: var(--neutral-900);
+    }
+
+    /* Helpers */
+    .text-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+
+  <!-- SVG icon defs (reused) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 3 5-6"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9V4h12v5a6 6 0 0 1-12 0z"/><path d="M6 4H2v3a3 3 0 0 0 4 3"/><path d="M18 4h4v3a3 3 0 0 1-4 3"/><path d="M9 17h6v4H9z"/><path d="M12 15v2"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="8" r="3"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5C8.5 13 9 12 10 11.5c-1.5-3 .5-5 2-6.5 1.5 1.5 6.5 6 6.5 11a6.5 6.5 0 0 1-13 0c0-1.5 1-3 2.5-4 0 1 .5 2.5 2 2.5z"/></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="page-header">
+    <div class="container" style="padding: 0;">
+      <h1>Altara — Design System Preview</h1>
+      <p>v2 · paleta &amp; tipografia inspiradas em Section · proposta pra aprovação antes dos mockups HTML</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- PALETA -->
+    <section>
+      <h2>Paleta de cores</h2>
+
+      <h3>Primária — Altara (Section-leaning purple/violet)</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background: var(--altara-50);"></div><div class="swatch-info"><div class="swatch-name">altara-50</div><div class="swatch-hex">#F4F1FE</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--altara-100);"></div><div class="swatch-info"><div class="swatch-name">altara-100</div><div class="swatch-hex">#E8E3FD</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--altara-200);"></div><div class="swatch-info"><div class="swatch-name">altara-200</div><div class="swatch-hex">#D2C9FB</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--altara-500);"></div><div class="swatch-info"><div class="swatch-name">altara-500</div><div class="swatch-hex">#7B6BE8</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--altara-600);"></div><div class="swatch-info"><div class="swatch-name">altara-600 ★</div><div class="swatch-hex">#5B47E8</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--altara-700);"></div><div class="swatch-info"><div class="swatch-name">altara-700</div><div class="swatch-hex">#4B38C7</div></div></div>
+      </div>
+
+      <h3>Preto + Neutros (off-white quente, Section-style)</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background: var(--black);"></div><div class="swatch-info"><div class="swatch-name">black</div><div class="swatch-hex">#0A0A0A</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-900);"></div><div class="swatch-info"><div class="swatch-name">neutral-900</div><div class="swatch-hex">#18181B</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-700);"></div><div class="swatch-info"><div class="swatch-name">neutral-700</div><div class="swatch-hex">#3F3D38</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-500);"></div><div class="swatch-info"><div class="swatch-name">neutral-500</div><div class="swatch-hex">#78766F</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-300);"></div><div class="swatch-info"><div class="swatch-name">neutral-300</div><div class="swatch-hex">#D8D5CD</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-200);"></div><div class="swatch-info"><div class="swatch-name">neutral-200</div><div class="swatch-hex">#EAE8E2</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-100);"></div><div class="swatch-info"><div class="swatch-name">neutral-100</div><div class="swatch-hex">#F5F4F0</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral-50);"></div><div class="swatch-info"><div class="swatch-name">neutral-50 ★</div><div class="swatch-hex">#FAFAF7</div></div></div>
+      </div>
+
+      <h3>Tags pastéis quentes (Section-style)</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background: var(--tag-pink-bg);"></div><div class="swatch-info"><div class="swatch-name">tag-pink</div><div class="swatch-hex">#FCD3D6</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--tag-peach-bg);"></div><div class="swatch-info"><div class="swatch-name">tag-peach</div><div class="swatch-hex">#FBE0CC</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--tag-mint-bg);"></div><div class="swatch-info"><div class="swatch-name">tag-mint</div><div class="swatch-hex">#D9E8DC</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--tag-lavender-bg);"></div><div class="swatch-info"><div class="swatch-name">tag-lavender</div><div class="swatch-hex">#E5DDF5</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--tag-butter-bg);"></div><div class="swatch-info"><div class="swatch-name">tag-butter</div><div class="swatch-hex">#FBF1CB</div></div></div>
+      </div>
+    </section>
+
+    <!-- TIPOGRAFIA -->
+    <section>
+      <h2>Tipografia</h2>
+      <div class="note">
+        Sistema 100% <strong>sans-serif</strong> (igual Section): <strong>Satoshi</strong> (Indian Type Foundry, via Fontshare — vibe Söhne/GT America) pra todos os títulos &amp; body + <strong>JetBrains Mono</strong> (prompts). Hierarquia entre display e body é peso + size + tracking, não troca de família.
+      </div>
+
+      <h3>Display (Satoshi — pesos 500-600, tracking apertado)</h3>
+
+      <div class="type-row">
+        <div class="type-label">display-lg</div>
+        <div class="type-meta">48 / 56 / Satoshi 500</div>
+        <div class="type-sample serif" style="font-size: 48px; line-height: 56px; font-weight: 500;">Você se certificou em Pesquisa de Mercado</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-label">h1</div>
+        <div class="type-meta">40 / 48 / Satoshi 500</div>
+        <div class="type-sample serif" style="font-size: 40px; line-height: 48px; font-weight: 500;">Olá, Brittany</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-label">h2</div>
+        <div class="type-meta">32 / 40 / Satoshi 500</div>
+        <div class="type-sample serif" style="font-size: 32px; line-height: 40px; font-weight: 500;">Challenge 1: Fundamentos</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-label">h3</div>
+        <div class="type-meta">24 / 32 / Satoshi 600</div>
+        <div class="type-sample serif" style="font-size: 24px; line-height: 32px; font-weight: 600;">Workflow desbloqueado</div>
+      </div>
+
+      <h3>Body (Satoshi — pesos 400-600)</h3>
+
+      <div class="type-row">
+        <div class="type-label">body-lg</div>
+        <div class="type-meta">18 / 28 / Satoshi 400</div>
+        <div class="type-sample" style="font-size: 18px; line-height: 28px;">Continue de onde parou — você está na lição 3 de 5 da trilha de Prospecção Comercial.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-label">body</div>
+        <div class="type-meta">15 / 24 / Satoshi 400</div>
+        <div class="type-sample" style="font-size: 15px; line-height: 24px;">Cada workflow do Altara é um procedimento curado, executável usando a IA que sua empresa já paga. Não é automação custom — é receita pronta com prompts otimizados.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-label">body-sm</div>
+        <div class="type-meta">14 / 20 / Satoshi 400</div>
+        <div class="type-sample" style="font-size: 14px; line-height: 20px;">Você economizou 4h essa semana — continue assim.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-label">caption</div>
+        <div class="type-meta">12 / 16 / Satoshi 600 ucase</div>
+        <div class="type-sample" style="font-size: 12px; line-height: 16px; font-weight: 600; color: var(--neutral-500); text-transform: uppercase; letter-spacing: 0.06em;">% TIME ATIVO SEMANAL</div>
+      </div>
+
+      <h3>Mono (JetBrains Mono — prompts/code)</h3>
+      <div class="prompt-block" style="max-width: 720px;">Você é um analista de pesquisa de mercado especializado em <span class="placeholder">{setor}</span>.
+
+Sua tarefa: gerar um relatório executivo de 1 página com 3 seções (panorama, oportunidades, riscos) sobre <span class="placeholder">{produto}</span>.
+
+Use dados do mercado brasileiro quando disponíveis.</div>
+    </section>
+
+    <!-- BOTÕES -->
+    <section>
+      <h2>Botões</h2>
+
+      <h3>Variantes (CTA principal em preto sólido — Section-style)</h3>
+      <div class="button-group">
+        <button class="btn btn-primary">Iniciar próxima lição</button>
+        <button class="btn btn-accent">Compartilhar no LinkedIn</button>
+        <button class="btn btn-secondary">Cancelar</button>
+        <button class="btn btn-ghost">Pular</button>
+        <button class="btn btn-danger">Arquivar workflow</button>
+        <button class="btn btn-primary btn-disabled" disabled>Indisponível</button>
+      </div>
+      <div class="note">
+        Section usa <strong>CTA primário em preto sólido</strong> (não roxo). Roxo Altara fica como accent secundário (ex: compartilhar, links, progress). Pretos em pills (border-radius 999px) seguem Section visual.
+      </div>
+
+      <h3>Tamanhos</h3>
+      <div class="button-group">
+        <button class="btn btn-primary btn-sm">Pequeno</button>
+        <button class="btn btn-primary">Padrão</button>
+        <button class="btn btn-primary btn-lg">Grande</button>
+      </div>
+    </section>
+
+    <!-- KPI -->
+    <section>
+      <h2>KPI Cards (HQ Home)</h2>
+
+      <div class="card-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">% Time ativo semanal <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24" style="background:transparent; padding:0;"><use href="#i-help"/></svg></div>
+          <div class="kpi-value">65%</div>
+          <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +57pp</div>
+          <div class="kpi-baseline">vs. baseline (era 8%)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Workflows ativos <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24" style="background:transparent; padding:0;"><use href="#i-help"/></svg></div>
+          <div class="kpi-value">14</div>
+          <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +14</div>
+          <div class="kpi-baseline">eram 0 no diagnóstico</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">% Time certificado <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24" style="background:transparent; padding:0;"><use href="#i-help"/></svg></div>
+          <div class="kpi-value">72%</div>
+          <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +72pp</div>
+          <div class="kpi-baseline">vs. baseline (era 0%)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Horas economizadas <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24" style="background:transparent; padding:0;"><use href="#i-help"/></svg></div>
+          <div class="kpi-value">127h</div>
+          <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +89</div>
+          <div class="kpi-baseline">no mês — R$ 14.2k estimados</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAGS / BADGES -->
+    <section>
+      <h2>Tags &amp; Badges (Section-style pastéis quentes)</h2>
+
+      <h3>Tags de categoria / destaque (pastéis quentes, square-ish)</h3>
+      <div class="badge-row">
+        <span class="tag tag-pink">Recomendado</span>
+        <span class="tag tag-peach">Accelerator</span>
+        <span class="tag tag-lavender">Superpower</span>
+        <span class="tag tag-mint">Workshop</span>
+        <span class="tag tag-butter">Em destaque</span>
+      </div>
+
+      <h3>Badges de categoria de trilha</h3>
+      <div class="badge-row">
+        <span class="tag tag-lavender">Fundamentos</span>
+        <span class="tag tag-mint">Especialização</span>
+        <span class="tag tag-pink">Comercial</span>
+        <span class="tag tag-peach">Marketing</span>
+        <span class="tag tag-butter">Operações</span>
+        <span class="tag tag-neutral">Avançado</span>
+      </div>
+
+      <h3>Status (pill funcional)</h3>
+      <div class="badge-row">
+        <span class="badge badge-ativo">Ativo</span>
+        <span class="badge badge-ocioso">Ocioso</span>
+        <span class="badge badge-atrasado">Atrasado</span>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section>
+      <h2>Progress &amp; Streak</h2>
+
+      <h3>Barra linear</h3>
+      <div style="max-width: 400px;">
+        <div class="progress"><div class="progress-fill" style="width: 65%;"></div></div>
+        <div class="progress-label">3 de 5 lições — 65%</div>
+      </div>
+
+      <h3>Timeline horizontal (Coach — espelha Section)</h3>
+      <div class="timeline">
+        <div class="timeline-dot completed"></div>
+        <div class="timeline-line completed"></div>
+        <div class="timeline-dot completed"></div>
+        <div class="timeline-line completed"></div>
+        <div class="timeline-dot current"></div>
+        <div class="timeline-line"></div>
+        <div class="timeline-dot pending"></div>
+        <div class="timeline-line"></div>
+        <div class="timeline-dot pending"></div>
+      </div>
+      <div class="progress-label">Lição 3 de 5</div>
+
+      <h3>Streak (sem emoji — dot colorido + número em serif)</h3>
+      <span class="streak">
+        <span class="streak-dot"></span>
+        <span class="streak-count">5</span>
+        <span>dias seguidos</span>
+      </span>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section>
+      <h2>Leaderboard (Challenge ativo)</h2>
+
+      <div class="leaderboard">
+        <div class="leaderboard-row">
+          <div class="leaderboard-rank">1</div>
+          <div class="leaderboard-medal medal-1">1</div>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Mariana Souza</div>
+            <div class="leaderboard-dept">Marketing</div>
+          </div>
+          <div class="leaderboard-points">1.420</div>
+        </div>
+        <div class="leaderboard-row">
+          <div class="leaderboard-rank">2</div>
+          <div class="leaderboard-medal medal-2">2</div>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Rafael Fernandes</div>
+            <div class="leaderboard-dept">Comercial</div>
+          </div>
+          <div class="leaderboard-points">1.180</div>
+        </div>
+        <div class="leaderboard-row">
+          <div class="leaderboard-rank">3</div>
+          <div class="leaderboard-medal medal-3">3</div>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Patrícia Lima</div>
+            <div class="leaderboard-dept">Operações</div>
+          </div>
+          <div class="leaderboard-points">980</div>
+        </div>
+        <div class="leaderboard-row">
+          <div class="leaderboard-rank">4</div>
+          <div class="leaderboard-avatar">CA</div>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Carlos Andrade</div>
+            <div class="leaderboard-dept">Comercial</div>
+          </div>
+          <div class="leaderboard-points">820</div>
+        </div>
+        <div class="leaderboard-row you">
+          <div class="leaderboard-rank">7</div>
+          <div class="leaderboard-avatar">JB</div>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Você</div>
+            <div class="leaderboard-dept">Comercial</div>
+          </div>
+          <div class="leaderboard-points">620</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INPUTS -->
+    <section>
+      <h2>Inputs</h2>
+
+      <div class="input-group">
+        <label class="input-label">Empresa</label>
+        <input class="input" type="text" value="ZNIT Consultoria">
+        <div class="input-helper">Nome como aparecerá no perfil dos funcionários.</div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Setor da empresa</label>
+        <input class="input" type="text" placeholder="Selecione...">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Descreva o que faltou na trilha</label>
+        <textarea class="input" rows="3" placeholder="Conta o que não funcionou pra a gente regenerar uma versão melhor pra você..."></textarea>
+      </div>
+    </section>
+
+    <!-- WORKFLOW HANDOFF -->
+    <section>
+      <h2>Workflow handoff (Coach)</h2>
+
+      <div class="workflow-card">
+        <div class="workflow-header">
+          <div class="workflow-title">Workflow desbloqueado</div>
+          <div class="workflow-subtitle">Pesquisa de Mercado com Copilot</div>
+          <div class="workflow-meta">
+            <span class="tag tag-peach">Marketing</span>
+            <span class="workflow-meta-item"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-clock"/></svg> ~30 min</span>
+            <span class="workflow-meta-item"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg> Microsoft Copilot</span>
+          </div>
+        </div>
+
+        <div class="workflow-body">
+          <h3 style="margin-top: 0;">Prompt otimizado</h3>
+          <div class="prompt-block"><button class="prompt-copy"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-copy"/></svg> Copiar</button>Você é um analista de pesquisa de mercado especializado em <span class="placeholder">{setor}</span>.
+
+Sua tarefa: gerar um relatório executivo de 1 página com 3 seções (panorama, oportunidades, riscos) sobre <span class="placeholder">{produto}</span>.
+
+Use dados do mercado brasileiro quando disponíveis.</div>
+
+          <div class="note">
+            Detectamos <strong>2 placeholders</strong> nesse prompt. Antes de copiar, preencha:
+            <code>setor</code> e <code>produto</code>.
+          </div>
+
+          <div class="workflow-actions">
+            <button class="btn btn-primary">Usar agora</button>
+            <button class="btn btn-secondary">Reportar aplicação real</button>
+            <button class="btn btn-ghost">Salvar pra depois</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICAÇÃO -->
+    <section>
+      <h2>Certificação (asset compartilhável LinkedIn)</h2>
+
+      <div class="cert">
+        <div class="cert-label">Certificado de Conclusão</div>
+        <div class="cert-title">Pesquisa de Mercado com IA</div>
+        <div class="cert-subtitle">João Bruno Palermo · ZNIT Consultoria</div>
+
+        <div class="cert-stats">
+          <div>
+            <div class="cert-stat-value">5</div>
+            <div class="cert-stat-label">Lições</div>
+          </div>
+          <div>
+            <div class="cert-stat-value">1.420</div>
+            <div class="cert-stat-label">Pontos</div>
+          </div>
+          <div>
+            <div class="cert-stat-value">6h</div>
+            <div class="cert-stat-label">Economizadas</div>
+          </div>
+        </div>
+
+        <div class="cert-stamp">
+          <span class="cert-logo">altara</span>
+          <span>·</span>
+          <span>18 mai 2026</span>
+          <span>·</span>
+          <span class="cert-validate">altara.com.br/c/k3m9q</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn btn-primary"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-share"/></svg> Compartilhar no LinkedIn</button>
+        <button class="btn btn-secondary"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-download"/></svg> Baixar imagem</button>
+        <button class="btn btn-ghost"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-link"/></svg> Copiar link</button>
+        <button class="btn btn-ghost">Compartilhar depois</button>
+      </div>
+    </section>
+
+    <!-- LAYOUT MACRO -->
+    <section>
+      <h2>Layout macro (HQ — sidebar + header + KPIs)</h2>
+
+      <div class="layout-demo">
+        <div class="layout-sidebar">
+          <div class="layout-sidebar-logo">altara</div>
+          <div class="layout-nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</div>
+          <div class="layout-nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chart"/></svg> Adoção &amp; ROI</div>
+          <div class="layout-nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-trophy"/></svg> Challenges</div>
+          <div class="layout-nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-users"/></svg> Time</div>
+          <div class="layout-nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</div>
+          <div class="layout-nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg> Programa</div>
+          <div class="layout-nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-settings"/></svg> Configurações</div>
+        </div>
+
+        <div class="layout-main">
+          <div class="layout-greeting">Olá, Brittany</div>
+          <div class="layout-subgreeting">Semana 5 de 8 · Challenge 2 em execução</div>
+
+          <div class="layout-kpis">
+            <div class="kpi-card">
+              <div class="kpi-label">% Time ativo</div>
+              <div class="kpi-value">65%</div>
+              <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +57pp</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Workflows ativos</div>
+              <div class="kpi-value">14</div>
+              <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +14</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">% Certificado</div>
+              <div class="kpi-value">72%</div>
+              <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +72pp</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Horas econ.</div>
+              <div class="kpi-value">127h</div>
+              <div class="kpi-delta positive"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +89</div>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <div class="action-card-text">
+              <div class="action-card-title">Próxima ação recomendada</div>
+              <div class="action-card-desc">32% do comercial ainda não completou a Trilha 1 — disparar lembrete?</div>
+            </div>
+            <button class="btn btn-primary btn-sm">Disparar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top: 24px;">
+        <strong>Observações da v3:</strong> tipografia agora 100% sans-serif (<strong>Satoshi</strong>), espelhando Section que também é sans-serif. Hierarquia entre display e body é peso + tracking, não troca de família. Emojis substituídos por SVGs inline. CTA primário em preto sólido. Item ativo da sidebar com card branco + border sutil (Section pattern).
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

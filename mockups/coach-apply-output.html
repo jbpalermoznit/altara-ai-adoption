@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply Output — Action Plan · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .output-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+      max-width: 1180px;
+    }
+    @media (max-width: 900px) {
+      .output-layout { grid-template-columns: 1fr; }
+    }
+    .output-side {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 20px;
+      position: sticky;
+      top: 88px;
+      height: fit-content;
+    }
+    .output-side-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--neutral-900);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+    .plan-steps-mini {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+    .plan-step-mini {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--neutral-500);
+    }
+    .plan-step-mini::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      flex-shrink: 0;
+    }
+    .prompt-preview-side {
+      background: var(--neutral-100);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--neutral-700);
+      max-height: 120px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .prompt-preview-side::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30px;
+      background: linear-gradient(to bottom, transparent, var(--neutral-100));
+    }
+    .side-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--neutral-200);
+    }
+    .side-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--neutral-500);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .output-main {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .output-intro {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .output-intro-orb {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--altara-500));
+      margin-bottom: 16px;
+    }
+    .output-intro h2 {
+      font-size: 28px;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+    .output-intro p {
+      font-size: 15px;
+      color: var(--neutral-700);
+      line-height: 1.6;
+    }
+
+    /* 4 Guides cards horizontais */
+    .guides-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 700px) {
+      .guides-row { grid-template-columns: 1fr 1fr; }
+    }
+    .guide-card {
+      aspect-ratio: 1;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .guide-card:hover { transform: translateY(-2px); }
+    .guide-card-num {
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      opacity: 0.5;
+    }
+    .guide-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+    .gc-1 { background: linear-gradient(135deg, #FCD3D6, #FBE0CC); color: #6B2030; }
+    .gc-2 { background: linear-gradient(135deg, #FBE0CC, #FBF1CB); color: #6E3D17; }
+    .gc-3 { background: linear-gradient(135deg, #D9E8DC, #E5DDF5); color: #2D5C3A; }
+    .gc-4 { background: linear-gradient(135deg, #E5DDF5, #F4F1FE); color: #3F2A6E; }
+
+    /* Customized Prompt section */
+    .prompt-card {
+      background: var(--neutral-100);
+      border: 1px solid var(--neutral-200);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
+    .prompt-card:hover { border-color: var(--altara-600); }
+    .prompt-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--neutral-500);
+    }
+    .prompt-preview-text {
+      flex: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--neutral-700);
+      max-height: 60px;
+      overflow: hidden;
+      position: relative;
+    }
+    .prompt-preview-text::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30px;
+      background: linear-gradient(to bottom, transparent, var(--neutral-100));
+    }
+    .prompt-card-action {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Action Plan */
+    .action-plan {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .action-plan h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    .action-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--neutral-100);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .action-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .action-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--altara-700);
+      flex-shrink: 0;
+      width: 24px;
+    }
+    .action-content {
+      flex: 1;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--neutral-900);
+    }
+    .action-content strong {
+      font-weight: 600;
+      color: var(--neutral-900);
+    }
+
+    /* CTAs */
+    .output-ctas {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 24px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+    }
+
+    .save-fav {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-300);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--neutral-700);
+      cursor: pointer;
+    }
+    .save-fav:hover { background: var(--neutral-50); }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></symbol>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="coach-apply-catalogo.html">Apply Catálogo</a>
+    <a href="coach-apply-chat.html">Apply Chat</a>
+    <a href="coach-apply-output.html" class="active">Apply Output</a>
+    <a href="coach-home.html">Coach Home</a>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item" href="coach-home.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book"/></svg> Trilhas</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg> Apply</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-user"/></svg> Perfil</a>
+      <a class="nav-item" style="margin-top: 16px; color: var(--altara-600); font-weight: 600;">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#i-plus"/></svg> Solicitar trilha
+      </a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Comercial</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">JB</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <div class="output-layout">
+
+          <!-- Sidebar -->
+          <aside class="output-side">
+            <a class="apply-side-back" href="coach-apply-chat.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--neutral-500); margin-bottom: 16px;">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg>
+              Voltar pro chat
+            </a>
+            <div class="output-side-title">Briefing pré-reunião com cliente</div>
+
+            <div class="plan-steps-mini">
+              <div class="plan-step-mini">Defina o caso de uso</div>
+              <div class="plan-step-mini">Tipo de cliente</div>
+              <div class="plan-step-mini">Informações do briefing</div>
+              <div class="plan-step-mini">Contexto adicional</div>
+            </div>
+
+            <div class="side-section">
+              <div class="side-section-title">Prompt customizado</div>
+              <div class="prompt-preview-side">Você é assistente comercial especializado em B2B mid-market...
+
+Tarefa: gerar briefing pré-reunião pra primeira call de descoberta com cliente do setor [SETOR]...</div>
+            </div>
+
+            <div class="side-section">
+              <div class="side-section-title">Próximos passos</div>
+              <button class="btn btn-secondary btn-sm w-full">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-refresh"/></svg>
+                Refinar com Coach
+              </button>
+            </div>
+          </aside>
+
+          <!-- Main output -->
+          <section class="output-main">
+
+            <!-- Intro -->
+            <div class="output-intro">
+              <div class="output-intro-orb"></div>
+              <h2>Pronto. Aqui está seu plano e prompt pra implementar.</h2>
+              <p>Criei um use case personalizado pra você baseado no que conversamos: reuniões de descoberta com prospects B2B mid-market do setor de varejo ou serviços, vindos via indicação. Os 4 guides abaixo dão contexto pra usar bem.</p>
+            </div>
+
+            <!-- 4 Guides -->
+            <div class="guides-row">
+              <div class="guide-card gc-1">
+                <div class="guide-card-num">01</div>
+                <div class="guide-card-title">Por que usar IA</div>
+              </div>
+              <div class="guide-card gc-2">
+                <div class="guide-card-num">02</div>
+                <div class="guide-card-title">Aproveitando suas ferramentas</div>
+              </div>
+              <div class="guide-card gc-3">
+                <div class="guide-card-num">03</div>
+                <div class="guide-card-title">Verificando o output</div>
+              </div>
+              <div class="guide-card gc-4">
+                <div class="guide-card-num">04</div>
+                <div class="guide-card-title">Iterando com IA</div>
+              </div>
+            </div>
+
+            <!-- Prompt customizado -->
+            <div>
+              <div class="caption mb-3">Seu prompt customizado</div>
+              <div class="prompt-card">
+                <div class="prompt-icon">{ }</div>
+                <div class="prompt-preview-text">Você é assistente comercial especializado em B2B mid-market. Sua tarefa: gerar briefing pré-reunião pra primeira call de descoberta com cliente do setor [SETOR], faturamento estimado [FATURAMENTO]...</div>
+                <div class="prompt-card-action">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg>
+                </div>
+              </div>
+              <div class="flex justify-end mt-2">
+                <button class="save-fav">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-heart"/></svg>
+                  Salvar
+                </button>
+              </div>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="action-plan">
+              <h3>Seu plano de ação</h3>
+
+              <div class="action-item">
+                <div class="action-num">01</div>
+                <div class="action-content">
+                  <strong>Colete dados do cliente antes de rodar o prompt:</strong> abra LinkedIn da empresa + perfis dos participantes da reunião, descubra setor exato, tamanho do time, ano de fundação. Quanto mais específico você for nos placeholders [SETOR] e [FATURAMENTO], melhor o briefing.
+                </div>
+              </div>
+
+              <div class="action-item">
+                <div class="action-num">02</div>
+                <div class="action-content">
+                  <strong>Crie um agente Copilot dedicado pra reusar:</strong> em vez de copiar o prompt toda vez, configure ele como agente no Copilot Studio. Adicione conhecimento do SharePoint da ZNIT com casos de sucesso passados. Assim cada briefing já vem com pontos de conexão prontos.
+                </div>
+              </div>
+
+              <div class="action-item">
+                <div class="action-num">03</div>
+                <div class="action-content">
+                  <strong>Valide as conexões antes de usar:</strong> Copilot pode inventar "conexões mutuais" no LinkedIn — sempre confira no perfil real antes de mencionar na call. Erro aqui custa credibilidade na hora.
+                </div>
+              </div>
+
+              <div class="action-item">
+                <div class="action-num">04</div>
+                <div class="action-content">
+                  <strong>Itere com o cliente em mente:</strong> depois das 3 primeiras execuções, ajuste o prompt. Se notar que faltam "perguntas estratégicas pra fazer na call", expanda essa parte. Cada call ensina algo — atualize o agente Copilot mensalmente.
+                </div>
+              </div>
+
+              <div class="action-item">
+                <div class="action-num">05</div>
+                <div class="action-content">
+                  <strong>Compartilhe com o time comercial:</strong> esse workflow vale o esforço de virar SOP da empresa. Marca como caso candidato e o champion (sua liderança) revisa pra subir na biblioteca da ZNIT — todo mundo do comercial passa a usar a versão calibrada por você.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- CTAs -->
+            <div class="output-ctas">
+              <button class="btn btn-primary btn-lg">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-external"/></svg>
+                Usar agora no Copilot
+              </button>
+              <button class="btn btn-secondary">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check"/></svg>
+                Reportar aplicação real
+              </button>
+              <button class="btn btn-secondary">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-bookmark"/></svg>
+                Salvar como workflow da empresa
+              </button>
+              <button class="btn btn-ghost">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-refresh"/></svg>
+                Refinar com Coach
+              </button>
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

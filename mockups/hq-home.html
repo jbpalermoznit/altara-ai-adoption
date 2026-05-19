@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HQ — Home · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- SVG sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 3 5-6"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9V4h12v5a6 6 0 0 1-12 0z"/><path d="M6 4H2v3a3 3 0 0 0 4 3"/><path d="M18 4h4v3a3 3 0 0 1-4 3"/><path d="M9 17h6v4H9z"/><path d="M12 15v2"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="8" r="3"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- Mockup nav (apenas pros mockups, não é parte do produto) -->
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="hq-home.html" class="active">HQ Home</a>
+    <a href="coach-home.html">Coach Home</a>
+    <a href="coach-workflow-handoff.html">Workflow Handoff</a>
+    <a href="coach-certificacao.html">Certificação</a>
+  </div>
+
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chart"/></svg> Adoção &amp; ROI</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-trophy"/></svg> Challenges</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-users"/></svg> Time</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg> Programa</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-settings"/></svg> Configurações</a>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Programa em execução</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">BM</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- Greeting -->
+        <div class="mb-6">
+          <h1 class="h1">Olá, Brittany</h1>
+          <p class="body-lg text-muted mt-2">Semana 5 de 8 · Challenge 2 em execução · próxima review em 12 dias</p>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid mb-8">
+          <div class="kpi-card">
+            <div class="kpi-label">
+              % Time ativo semanal
+              <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24"><use href="#i-help"/></svg>
+            </div>
+            <div class="kpi-value">65%</div>
+            <div class="kpi-delta positive">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +57pp
+            </div>
+            <div class="kpi-baseline">vs. baseline (era 8%)</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">
+              Workflows ativos
+              <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24"><use href="#i-help"/></svg>
+            </div>
+            <div class="kpi-value">14</div>
+            <div class="kpi-delta positive">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +14
+            </div>
+            <div class="kpi-baseline">eram 0 no diagnóstico</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">
+              % Time certificado
+              <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24"><use href="#i-help"/></svg>
+            </div>
+            <div class="kpi-value">72%</div>
+            <div class="kpi-delta positive">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +72pp
+            </div>
+            <div class="kpi-baseline">vs. baseline (era 0%)</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">
+              Horas economizadas
+              <svg class="icon icon-sm kpi-help" viewBox="0 0 24 24"><use href="#i-help"/></svg>
+            </div>
+            <div class="kpi-value">127h</div>
+            <div class="kpi-delta positive">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-up"/></svg> +89
+            </div>
+            <div class="kpi-baseline">no mês — R$ 14.2k estimados</div>
+          </div>
+        </div>
+
+        <!-- Próxima ação recomendada -->
+        <div class="action-card mb-8">
+          <div class="action-card-text">
+            <div class="action-card-title">Próxima ação recomendada</div>
+            <div class="action-card-desc">32% do time comercial ainda não completou a Trilha 1. Disparar lembrete por e-mail agora?</div>
+          </div>
+          <button class="btn btn-primary btn-sm">Disparar lembrete</button>
+        </div>
+
+        <!-- Challenge banner -->
+        <div class="challenge-banner mb-8">
+          <div class="challenge-banner-info">
+            <div class="challenge-banner-label">Challenge 2 · Especialização</div>
+            <div class="challenge-banner-title">Atendimento ao Cliente com IA pra varejo</div>
+            <div class="challenge-banner-meta">
+              <div class="challenge-banner-stat">
+                <span class="challenge-banner-stat-value">42%</span>
+                <span class="challenge-banner-stat-label">Progresso médio</span>
+              </div>
+              <div class="challenge-banner-stat">
+                <span class="challenge-banner-stat-value">23/32</span>
+                <span class="challenge-banner-stat-label">Funcionários engajados</span>
+              </div>
+              <div class="challenge-banner-stat">
+                <span class="challenge-banner-stat-value">+18</span>
+                <span class="challenge-banner-stat-label">Aplicações reportadas</span>
+              </div>
+            </div>
+          </div>
+          <div class="challenge-banner-countdown">
+            <div class="countdown-value">8</div>
+            <div class="countdown-label">dias restantes</div>
+            <button class="btn btn-accent btn-sm mt-3">Ver leaderboard</button>
+          </div>
+        </div>
+
+        <!-- 2 colunas: adoção dept + casos-âncora -->
+        <div class="grid-2 mb-8">
+
+          <!-- Adoção por departamento -->
+          <div class="card">
+            <div class="section-title mb-4">
+              <h2>Adoção por departamento</h2>
+              <a class="link">Ver detalhes →</a>
+            </div>
+            <div class="bar-chart">
+              <div class="bar-row">
+                <span class="bar-label">Marketing</span>
+                <div class="bar-track"><div class="bar-fill" style="width: 88%;"></div></div>
+                <span class="bar-value">88%</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Produto</span>
+                <div class="bar-track"><div class="bar-fill" style="width: 78%;"></div></div>
+                <span class="bar-value">78%</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Customer Success</span>
+                <div class="bar-track"><div class="bar-fill" style="width: 68%;"></div></div>
+                <span class="bar-value">68%</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Operações</span>
+                <div class="bar-track"><div class="bar-fill warn" style="width: 52%;"></div></div>
+                <span class="bar-value">52%</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Comercial</span>
+                <div class="bar-track"><div class="bar-fill danger" style="width: 38%;"></div></div>
+                <span class="bar-value">38%</span>
+              </div>
+            </div>
+            <p class="body-sm text-muted mt-4">
+              Comercial e Operações abaixo da meta de 70%. Atribuir trilha obrigatória pra esses departamentos?
+            </p>
+          </div>
+
+          <!-- Casos-âncora preview -->
+          <div class="card">
+            <div class="section-title mb-4">
+              <h2>Casos-âncora deste mês</h2>
+              <a class="link">Selecionar mais →</a>
+            </div>
+            <div class="flex flex-col gap-4">
+
+              <div style="padding-bottom: 16px; border-bottom: 1px solid var(--neutral-100);">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="avatar avatar-sm">MS</div>
+                  <div>
+                    <div class="body" style="font-weight: 600;">Mariana Souza</div>
+                    <div class="body-sm text-muted">Marketing</div>
+                  </div>
+                  <span class="tag tag-mint" style="margin-left: auto;">6h economizadas</span>
+                </div>
+                <p class="body-sm">
+                  Usou o workflow de pesquisa de mercado pra entregar 4 relatórios setoriais na metade do tempo. CEO citou em reunião com sócios.
+                </p>
+              </div>
+
+              <div style="padding-bottom: 16px; border-bottom: 1px solid var(--neutral-100);">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="avatar avatar-sm">RF</div>
+                  <div>
+                    <div class="body" style="font-weight: 600;">Rafael Fernandes</div>
+                    <div class="body-sm text-muted">Comercial</div>
+                  </div>
+                  <span class="tag tag-mint" style="margin-left: auto;">4h economizadas</span>
+                </div>
+                <p class="body-sm">
+                  Configurou agente Copilot pra preparar propostas comerciais. Já gerou 12 propostas em 2 semanas.
+                </p>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="avatar avatar-sm">PL</div>
+                  <div>
+                    <div class="body" style="font-weight: 600;">Patrícia Lima</div>
+                    <div class="body-sm text-muted">Operações</div>
+                  </div>
+                  <span class="tag tag-mint" style="margin-left: auto;">3.5h economizadas</span>
+                </div>
+                <p class="body-sm">
+                  Automatizou triagem de tickets de suporte com GPT customizado. Tempo médio de primeira resposta caiu 60%.
+                </p>
+              </div>
+
+            </div>
+
+            <button class="btn btn-secondary btn-sm mt-6 w-full">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg>
+              Compartilhar como post no LinkedIn
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Programa cronograma -->
+        <div class="card">
+          <div class="section-title mb-4">
+            <h2>Programa 60 dias</h2>
+            <a class="link">Ver cronograma completo →</a>
+          </div>
+
+          <div class="flex items-center gap-2 mb-3" style="font-size: 12px; color: var(--neutral-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">
+            <span>Setup</span>
+            <span>·</span>
+            <span>Diagnóstico</span>
+            <span>·</span>
+            <span>Challenge 1</span>
+            <span>·</span>
+            <span>Checkpoint</span>
+            <span>·</span>
+            <span style="color: var(--altara-600);">Challenge 2 (atual)</span>
+            <span>·</span>
+            <span>Review final</span>
+          </div>
+
+          <div class="timeline mb-4">
+            <div class="timeline-dot completed"></div>
+            <div class="timeline-line completed"></div>
+            <div class="timeline-dot completed"></div>
+            <div class="timeline-line completed"></div>
+            <div class="timeline-dot completed"></div>
+            <div class="timeline-line completed"></div>
+            <div class="timeline-dot completed"></div>
+            <div class="timeline-line completed"></div>
+            <div class="timeline-dot current"></div>
+            <div class="timeline-line"></div>
+            <div class="timeline-dot pending"></div>
+          </div>
+
+          <p class="body-sm text-muted">
+            <strong style="color: var(--neutral-900);">Próxima reunião com CEO:</strong> 31 mai 2026 · review do Challenge 2 + escolha de próximas trilhas. Relatório automático será enviado por e-mail 48h antes.
+          </p>
+
+          <button class="btn btn-secondary btn-sm mt-4">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-download"/></svg>
+            Baixar relatório do mês (PDF)
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

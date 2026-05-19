@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply — Find your AI Use Case · Altara</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .apply-hero {
+      text-align: center;
+      padding: 32px 0 40px;
+    }
+    .apply-hero h1 {
+      font-size: 40px;
+      line-height: 48px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      margin-bottom: 24px;
+    }
+    .apply-search {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .apply-search input {
+      width: 100%;
+      border: 1px solid var(--neutral-300);
+      border-radius: 999px;
+      padding: 16px 24px 16px 64px;
+      font-family: inherit;
+      font-size: 16px;
+      background: var(--neutral-0);
+    }
+    .apply-search input:focus {
+      outline: none;
+      border-color: var(--altara-600);
+      box-shadow: 0 0 0 3px var(--altara-100);
+    }
+    .apply-search-avatar {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700), var(--tag-mint-bg), var(--altara-500));
+    }
+    .apply-tabs {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 32px 0 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .apply-tabs-list {
+      display: flex;
+      gap: 8px;
+    }
+    .apply-tab {
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--neutral-700);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .apply-tab.active {
+      background: var(--neutral-900);
+      color: white;
+    }
+    .apply-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1024px) {
+      .apply-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .apply-grid { grid-template-columns: 1fr; }
+    }
+    .use-card {
+      background: var(--neutral-0);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.18s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      min-height: 220px;
+    }
+    .use-card:hover {
+      border-color: var(--altara-600);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(91, 71, 232, 0.06);
+    }
+    .use-card-create {
+      background: var(--altara-50);
+      border: 1.5px dashed var(--altara-300, #C7B8FC);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .use-card-create:hover {
+      background: var(--altara-100);
+      border-color: var(--altara-600);
+      border-style: solid;
+    }
+    .create-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--altara-600);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .use-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .use-card p {
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--neutral-500);
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .use-card-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .use-card-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--neutral-500);
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--neutral-100);
+    }
+    .author-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--altara-500), var(--tag-pink-bg), var(--altara-700));
+    }
+    .apply-toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .toolbar-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--neutral-300);
+      background: var(--neutral-0);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .toolbar-btn:hover { background: var(--neutral-50); }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7H10v7H5a2 2 0 0 1-2-2z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></symbol>
+      <symbol id="i-sort" viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="mockup-nav">
+    <strong>mockup</strong>
+    <a href="index.html">← hub</a>
+    <a href="hq-home.html">HQ Home</a>
+    <a href="coach-home.html">Coach Home</a>
+    <a href="coach-apply-catalogo.html" class="active">Apply Catálogo</a>
+    <a href="coach-apply-chat.html">Apply Chat</a>
+    <a href="coach-apply-output.html">Apply Output</a>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <a href="index.html" class="sidebar-logo">altara</a>
+      <a class="nav-item" href="coach-home.html"><svg class="icon" viewBox="0 0 24 24"><use href="#i-home"/></svg> Home</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book"/></svg> Trilhas</a>
+      <a class="nav-item active"><svg class="icon" viewBox="0 0 24 24"><use href="#i-sparkles"/></svg> Apply</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Workflows</a>
+      <a class="nav-item"><svg class="icon" viewBox="0 0 24 24"><use href="#i-user"/></svg> Perfil</a>
+      <a class="nav-item" style="margin-top: 16px; color: var(--altara-600); font-weight: 600;">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#i-plus"/></svg> Solicitar trilha
+      </a>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-context">ZNIT Consultoria · Comercial</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-icon-only"><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"/></svg></button>
+          <div class="avatar">JB</div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <div class="apply-hero">
+          <h1>Find your AI Use Case</h1>
+          <div class="apply-search">
+            <div class="apply-search-avatar"></div>
+            <input type="text" placeholder="O que você quer fazer com IA hoje?">
+          </div>
+        </div>
+
+        <div class="apply-tabs">
+          <div class="apply-tabs-list">
+            <button class="apply-tab active">Recomendados pra você</button>
+            <button class="apply-tab">Seus use cases</button>
+            <button class="apply-tab">Todos</button>
+          </div>
+          <div class="apply-toolbar">
+            <button class="toolbar-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-sort"/></svg></button>
+            <button class="toolbar-btn"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-filter"/></svg></button>
+            <button class="btn btn-primary btn-sm">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-plus"/></svg>
+              Criar
+            </button>
+          </div>
+        </div>
+
+        <div class="apply-grid">
+
+          <a href="coach-apply-chat.html" class="use-card use-card-create">
+            <div class="create-icon">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><use href="#i-plus"/></svg>
+            </div>
+            <h3>Crie seu próprio Use Case</h3>
+            <p>Descreva qualquer tarefa do seu dia-a-dia — Coach conversa com você e gera plano + prompt customizado.</p>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-pink">Comercial</span>
+              <span class="tag tag-mint">Plano +2</span>
+            </div>
+            <h3>Qualificar leads de pipeline em 5 minutos</h3>
+            <p>Analise listas de leads contra critérios ICP, priorize por temperatura, e gere outreach personalizado.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-peach">Comercial</span>
+              <span class="tag tag-mint">Pra você</span>
+            </div>
+            <h3>Briefing pré-reunião com cliente</h3>
+            <p>Compile contexto da conta, últimas interações e perguntas críticas em sumário de 1 página antes da call.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-lavender">Comercial</span>
+              <span class="tag tag-mint">Pra você</span>
+            </div>
+            <h3>Proposta comercial personalizada</h3>
+            <p>Gera draft de proposta usando briefing do cliente, casos de sucesso da empresa e diferenciais técnicos.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-butter">Análise</span>
+              <span class="tag tag-mint">Decisões +1</span>
+            </div>
+            <h3>Identificar tendências em dataset time-series</h3>
+            <p>Detecta picos, anomalias e padrões em dados de performance ao longo do tempo. Gera relatório executivo.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-pink">Comercial</span>
+            </div>
+            <h3>Follow-up pós-reunião com next steps</h3>
+            <p>Resume reunião, identifica decisões + ações, gera e-mail de follow-up estruturado pro cliente.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-peach">Operações</span>
+              <span class="tag tag-mint">Pra você</span>
+            </div>
+            <h3>Triagem de tickets de suporte</h3>
+            <p>Categoriza tickets entrantes por urgência + tema, sugere primeira resposta automatizada baseada em FAQ.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-lavender">Análise</span>
+            </div>
+            <h3>Análise competitiva semanal</h3>
+            <p>Monitora movimentações de 5 concorrentes principais (preço, lançamentos, hiring) em sumário curto.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+          <a href="coach-apply-chat.html" class="use-card">
+            <div class="use-card-tags">
+              <span class="tag tag-butter">Marketing</span>
+              <span class="tag tag-mint">Pra você</span>
+            </div>
+            <h3>Pesquisa de mercado com Copilot</h3>
+            <p>Gera relatório executivo de 1 página com panorama, oportunidades e riscos sobre um setor específico.</p>
+            <div class="use-card-author">
+              <div class="author-avatar"></div>
+              Criado por Altara Coach
+            </div>
+          </a>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--neutral-200);">
+          <p class="body-sm text-muted">Não encontrou o que precisa?</p>
+          <button class="btn btn-secondary mt-3">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-plus"/></svg>
+            Solicitar use case novo
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
