@@ -1,0 +1,9 @@
+{
+  "name": "@altara/templates",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Templates curados pro engine de geração: trilhas, use cases, guides",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts"
+}

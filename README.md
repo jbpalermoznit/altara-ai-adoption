@@ -111,10 +111,22 @@ Detalhes completos em [SPEC.md](SPEC.md).
 | Design System | v2 — tipografia e paleta aprovadas |
 | Mockups | 16 telas em 3 rounds completos |
 | SPEC técnico | v1 — pronto pra dev começar |
-| Código | não iniciado |
+| Código | **M0 scaffolded** (2026-05-25) — Next.js 15 + Supabase + Drizzle + DS aplicado |
 | Cliente piloto | não iniciado |
 
-**Próximo marco:** começar implementação seguindo o roadmap do SPEC (12 semanas até primeiro cliente piloto onboarded).
+**Próximo marco:** M1 — Foundation (auth + onboarding + Coach Home com dados reais). Ver [ROADMAP.md](ROADMAP.md).
+
+**Foco estratégico (2026-05-25):** começar pelo AI Coach. HQ é analisado manualmente no início — produto-HQ entra depois que Coach gerar dados de engajamento.
+
+## Setup rápido
+
+```bash
+pnpm install
+cp .env.example apps/web/.env.local   # preencha as chaves
+pnpm dev                              # http://localhost:3000
+```
+
+Guia completo (contas Supabase/Vercel/Sentry/PostHog/Anthropic): **[docs/SETUP.md](docs/SETUP.md)**
 
 ---
 
@@ -127,13 +139,26 @@ altara-ai-adoption/
 ├── PRD.md                          requirements completos (8 seções)
 ├── DESIGN_SYSTEM.md                tokens, componentes, padrões UX
 ├── SPEC.md                         stack + schema + roadmap dev
+├── ROADMAP.md                      milestones M0-M6 + ~70 issues
 ├── design-system-preview.html      preview do DS
-└── mockups/
-    ├── index.html                  hub navegável
-    ├── styles.css                  DS aplicado
-    ├── hq-*.html                   5 telas do HQ
-    ├── coach-*.html                10 telas do Coach
-    └── floating-assistant.html     bolha persistente
+├── mockups/                        16 telas HTML navegáveis
+├── apps/
+│   └── web/                        Next.js 15 — código da aplicação
+│       ├── app/                    App Router (coach/, login/, auth/callback)
+│       ├── components/             UI (shadcn/ui + customizados)
+│       ├── lib/                    db/, auth/, supabase/, llm/, events/, email/, posthog/
+│       └── middleware.ts           proteção de rota
+├── packages/
+│   └── templates/                  trilhas/, use-cases/, guides/ (curados)
+├── supabase/
+│   ├── config.toml                 config local
+│   ├── migrations/                 SQL migrations versionadas
+│   └── seed.sql                    seed pra dev
+├── docs/
+│   └── SETUP.md                    guia de setup local
+└── .github/
+    ├── workflows/ci.yml            typecheck + lint + test
+    └── ISSUE_TEMPLATE/, PULL_REQUEST_TEMPLATE.md
 ```
 
 ---

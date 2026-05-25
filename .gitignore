@@ -26,6 +26,8 @@ pnpm-debug.log*
 out/
 dist/
 build/
+next-env.d.ts
+*.tsbuildinfo
 
 # Vercel
 .vercel
@@ -36,7 +38,27 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
 
 # Logs
 logs
 *.log
+
+# Supabase local
+supabase/.branches
+supabase/.temp
+
+# Drizzle
+drizzle/
+
+# Test
+coverage/
+.nyc_output
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Sentry
+.sentryclirc

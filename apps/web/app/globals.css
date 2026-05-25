@@ -1,0 +1,91 @@
+/* Satoshi (DESIGN_SYSTEM §4.1) — via Fontshare CDN */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,900&display=swap');
+/* JetBrains Mono pra prompts/código */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tokens de cor expostos via CSS vars pro shadcn (referenciam tailwind.config) */
+    --background: 60 22% 97%; /* neutral-50 #FAFAF7 */
+    --foreground: 240 5% 11%; /* neutral-900 */
+    --card: 0 0% 100%;
+    --card-foreground: 240 5% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 5% 11%;
+    --primary: 0 0% 4%; /* ink #0A0A0A — CTA primário é preto */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 60 14% 94%; /* neutral-100 */
+    --secondary-foreground: 240 5% 11%;
+    --muted: 60 14% 94%;
+    --muted-foreground: 40 5% 47%; /* neutral-500 */
+    --accent: 249 77% 60%; /* altara-600 #5B47E8 */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 73% 51%; /* danger */
+    --destructive-foreground: 0 0% 100%;
+    --border: 48 14% 90%; /* neutral-200 */
+    --input: 48 14% 90%;
+    --ring: 249 77% 60%; /* altara-600 — focus ring */
+    --radius: 12px;
+  }
+
+  * {
+    @apply border-neutral-200;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-neutral-50 text-neutral-900 font-sans;
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  /* DESIGN_SYSTEM §11 — focus visível sempre */
+  :focus-visible {
+    @apply outline-none ring-[3px] ring-altara-100 ring-offset-0;
+  }
+
+  /* Headings default usam pesos do DS */
+  h1 {
+    @apply text-h1;
+  }
+  h2 {
+    @apply text-h2;
+  }
+  h3 {
+    @apply text-h3;
+  }
+}
+
+@layer components {
+  /* DESIGN_SYSTEM §7.5 — Tags pastéis quentes */
+  .tag {
+    @apply inline-flex items-center rounded-sm px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider;
+  }
+  .tag-pink {
+    @apply tag bg-tag-pink-bg text-tag-pink-fg;
+  }
+  .tag-peach {
+    @apply tag bg-tag-peach-bg text-tag-peach-fg;
+  }
+  .tag-mint {
+    @apply tag bg-tag-mint-bg text-tag-mint-fg;
+  }
+  .tag-lavender {
+    @apply tag bg-tag-lavender-bg text-tag-lavender-fg;
+  }
+  .tag-butter {
+    @apply tag bg-tag-butter-bg text-tag-butter-fg;
+  }
+  .tag-neutral {
+    @apply tag bg-neutral-100 text-neutral-700;
+  }
+}
